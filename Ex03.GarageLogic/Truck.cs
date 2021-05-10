@@ -6,7 +6,31 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    class Truck
+    internal class Truck
     {
+        public Truck(bool i_carringHazardousMaterials, float i_MaximumCarryingWeight)
+        {
+            r_carringHazardousMaterials = i_carringHazardousMaterials;
+            r_MaximumCarryingWeight = i_MaximumCarryingWeight;
+        }
+
+        public bool CarringHazardousMaterials
+        {
+            get
+            {
+                return r_carringHazardousMaterials;
+            }
+        }
+
+        public float MaximumCarryingWeight
+        {
+            get
+            {
+                return r_MaximumCarryingWeight;
+            }
+        }
+
+        private bool r_carringHazardousMaterials;
+        private float r_MaximumCarryingWeight;
     }
 }
