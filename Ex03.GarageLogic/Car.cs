@@ -15,7 +15,6 @@ namespace Ex03.GarageLogic
             White,
             Black,
         }
-
         public enum eDoorsNumber
         {
             Two,
