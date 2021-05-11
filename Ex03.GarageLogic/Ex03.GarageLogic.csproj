@@ -39,21 +39,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Car.cs" />
-    <Compile Include="ElectricCar.cs" />
-    <Compile Include="ElectricMotorcycle.cs" />
-    <Compile Include="ElectricVehicle.cs" />
+    <Compile Include="Vehicle\VehicleType\Car.cs" />
+    <Compile Include="Vehicle\ElectricVehicle\ElectricCar.cs" />
+    <Compile Include="Vehicle\ElectricVehicle\ElectricMotorcycle.cs" />
+    <Compile Include="Vehicle\ElectricVehicle\ElectricVehicle.cs" />
     <Compile Include="Garage.cs" />
-    <Compile Include="GasCar.cs" />
-    <Compile Include="GasMotorcycle.cs" />
-    <Compile Include="GasTruck.cs" />
-    <Compile Include="GasVehicle.cs" />
-    <Compile Include="Motorcycle.cs" />
+    <Compile Include="Vehicle\GasVehicle\GasCar.cs" />
+    <Compile Include="Vehicle\GasVehicle\GasMotorcycle.cs" />
+    <Compile Include="Vehicle\GasVehicle\GasTruck.cs" />
+    <Compile Include="Vehicle\GasVehicle\GasVehicle.cs" />
+    <Compile Include="Vehicle\VehicleType\Motorcycle.cs" />
     <Compile Include="Owner.cs" />
-    <Compile Include="Truck.cs" />
+    <Compile Include="Vehicle\VehicleType\Truck.cs" />
+    <Compile Include="ValueNotInFormat.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
-    <Compile Include="Vehicle.cs" />
-    <Compile Include="VehicleBuilder.cs" />
+    <Compile Include="Vehicle\Vehicle.cs" />
+    <Compile Include="VehicleCreator.cs" />
     <Compile Include="VehicleInTheGarage.cs" />
     <Compile Include="Wheel.cs" />
   </ItemGroup>

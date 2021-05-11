@@ -15,6 +15,7 @@ namespace Ex03.GarageLogic
             White,
             Black,
         }
+
         public enum eDoorsNumber
         {
             Two,
@@ -23,7 +24,13 @@ namespace Ex03.GarageLogic
             Five,
         }
 
-        private eDoorsNumber r_doors;
-        private eColors r_CarColor;
+        public Car(eDoorsNumber i_DoorNumber, eColors i_CarColor)
+        {
+            r_Doors = i_DoorNumber;
+            r_CarColor = i_CarColor;
+        }
+
+        private readonly eDoorsNumber r_Doors;
+        private readonly eColors r_CarColor;
     }
 }

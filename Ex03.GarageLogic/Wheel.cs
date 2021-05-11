@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class Wheel
     {
-        public float MaxAirPressure
-        {
-            get
-            {
-                return r_MaxAirPressure;
-            }
-        }
+        private const float k_MinAirPressure = 0;
+
+        public float MaxAirPressure { get; }
 
         public float CurrentAirPressure
         {
@@ -24,39 +14,38 @@ namespace Ex03.GarageLogic
             }
             set
             {
-                if (value > r_MaxAirPressure)
+                if ((value) > MaxAirPressure)
                 {
-                    throw new ValueOutOfRangeException("Error : Air pressure exceeded maximum capacity");
+                    throw new ValueOutOfRangeException("Air pressure", k_MinAirPressure, MaxAirPressure);
                 }
-                if (value < 0)
+                if (value < k_MinAirPressure)
                 {
-                    throw new ValueOutOfRangeException("Error : Air pressure cannot be negative");
+                    throw new ValueOutOfRangeException("Air pressure", k_MinAirPressure, MaxAirPressure);
                 }
 
                 m_CurrentAirPressure = value;
             }
         }
 
-        public Wheel(float r_MaxAirPressure)
+        public Wheel(float i_MaxAirPressure)
         {
-            this.r_MaxAirPressure = r_MaxAirPressure;
+            this.MaxAirPressure = i_MaxAirPressure;
         }
 
-        public Wheel(float i_currentAirPressure, float i_MaxAirPressure, string i_manufacturerName)
+        public Wheel(float i_CurrentAirPressure, float i_MaxAirPressure, string i_ManufacturerName)
         {
-            r_MaxAirPressure = i_MaxAirPressure;
-            CurrentAirPressure = i_currentAirPressure;
-            ManufacturerName = i_manufacturerName;
+            MaxAirPressure = i_MaxAirPressure;
+            CurrentAirPressure = i_CurrentAirPressure;
+            ManufacturerName = i_ManufacturerName;
         }
 
         public void Inflate(float i_HowMuchToInflate)
         {
-            CurrentAirPressure = CurrentAirPressure + i_HowMuchToInflate;
+            CurrentAirPressure += i_HowMuchToInflate;
         }
 
         public string ManufacturerName { get; set; }
 
         private float m_CurrentAirPressure;
-        private readonly float r_MaxAirPressure;
     }
 }

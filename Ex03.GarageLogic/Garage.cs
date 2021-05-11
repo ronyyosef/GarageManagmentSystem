@@ -1,8 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -11,30 +7,44 @@ namespace Ex03.GarageLogic
         public enum eVehicleStatus
         {
             InProgress,
-            repaired,
-            paied,
+            Repaired,
+            Paid,
         }
-        private readonly List<VehicleInTheGarage> VehicleInTheGarageList;
-        public List<string> AllVehiclesLicenseNumberListFiltered(Garage.eVehicleStatus filterBy)
+
+        private readonly List<VehicleInTheGarage> r_VehicleInTheGarageList;
+
+        public Garage()
         {
-            List<string> licenseNumberList = new List<string>();
-            foreach (VehicleInTheGarage vehicleInGarage in VehicleInTheGarageList)
+            r_VehicleInTheGarageList = new List<VehicleInTheGarage>();
+            Vehicle newCreatedVehicle = VehicleCreator.CreateNewElectricCar(
+                        30,
+                        10,
+                        new List<Wheel> { (new Wheel(10, 20, "willi")), },
+                        "skoda",
+                        "1234123",
+                        Car.eDoorsNumber.Four,
+                        Car.eColors.Black);
+            Owner ronyOwner = new Owner("rony", "0532840340");
+            r_VehicleInTheGarageList.Add(new VehicleInTheGarage(ronyOwner, newCreatedVehicle));
+        }
+
+        public void AllVehiclesLicenseNumberListFiltered(List<string> i_VehiclesLicenseNumber, Garage.eVehicleStatus i_FilterBy)
+        {
+            foreach (VehicleInTheGarage vehicleInGarage in r_VehicleInTheGarageList)
             {
-                if (vehicleInGarage.Status == filterBy)
+                if (vehicleInGarage.Status == i_FilterBy)
                 {
-                    licenseNumberList.Add(vehicleInGarage.GetLicenseNumber());
+                    i_VehiclesLicenseNumber.Add(vehicleInGarage.GetLicenseNumber());
                 }
             }
-            return licenseNumberList;
         }
-        public List<string> AllVehiclesLicenseNumberList()
+
+        public void AllVehiclesLicenseNumberList(List<string> i_VehiclesLicenseNumber)
         {
-            List<string> licenseNumberList = new List<string>();
-            foreach (VehicleInTheGarage vehicleInGarage in VehicleInTheGarageList)
+            foreach (VehicleInTheGarage vehicleInGarage in r_VehicleInTheGarageList)
             {
-                licenseNumberList.Add(vehicleInGarage.GetLicenseNumber());
+                i_VehiclesLicenseNumber.Add(vehicleInGarage.GetLicenseNumber());
             }
-            return licenseNumberList;
         }
     }
 }
