@@ -11,5 +11,10 @@ namespace Ex03.GarageLogic
         {
             r_Truck = new Truck(i_CarryingHazardousMaterials, i_MaximumCarryingWeight);
         }
+
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -23,6 +23,16 @@ namespace Ex03.GarageLogic
             EnergyPercent = (i_CurrentFuelAmountLiter / i_MaxFuelAmountLiter) * 100;
         }
 
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>();
+            result.Add(new VehicleCreator.RequiredData("Please enter the fuel type:", typeof(eFuelType)));
+            result.Add(new VehicleCreator.RequiredData("Please enter the current fuel amount in liters:", typeof(float)));
+            result.Add(new VehicleCreator.RequiredData("Please enter the max fuel amount in liters:", typeof(float)));
+            result.AddRange(Vehicle.RequiredData());
+            return result;
+        }
+
         private static void maxFuelCheck(float i_MaxFuelAmountLiter)
         {
             if (i_MaxFuelAmountLiter < k_MinFuel)

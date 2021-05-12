@@ -16,6 +16,15 @@ namespace Ex03.GarageLogic
             EnergyPercent = (m_BatteryTimeRemain / r_MaxBatteryTime);
         }
 
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>();
+            result.Add(new VehicleCreator.RequiredData("Please enter the maximum battery time:", typeof(float)));
+            result.Add(new VehicleCreator.RequiredData("Please enter the current battery time remain:", typeof(float)));
+            result.AddRange(Vehicle.RequiredData());
+            return result;
+        }
+
         protected float BatteryTimeRemain
         {
             get

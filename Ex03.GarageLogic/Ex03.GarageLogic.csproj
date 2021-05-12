@@ -43,7 +43,7 @@
     <Compile Include="Vehicle\ElectricVehicle\ElectricCar.cs" />
     <Compile Include="Vehicle\ElectricVehicle\ElectricMotorcycle.cs" />
     <Compile Include="Vehicle\ElectricVehicle\ElectricVehicle.cs" />
-    <Compile Include="Garage.cs" />
+    <Compile Include="GarageManager.cs" />
     <Compile Include="Vehicle\GasVehicle\GasCar.cs" />
     <Compile Include="Vehicle\GasVehicle\GasMotorcycle.cs" />
     <Compile Include="Vehicle\GasVehicle\GasTruck.cs" />
@@ -51,8 +51,8 @@
     <Compile Include="Vehicle\VehicleType\Motorcycle.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="Vehicle\VehicleType\Truck.cs" />
-    <Compile Include="ValueNotInFormat.cs" />
-    <Compile Include="ValueOutOfRangeException.cs" />
+    <Compile Include="Exception\ValueNotInFormatException.cs" />
+    <Compile Include="Exception\ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
     <Compile Include="VehicleCreator.cs" />
     <Compile Include="VehicleInTheGarage.cs" />

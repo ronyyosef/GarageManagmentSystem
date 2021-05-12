@@ -14,6 +14,16 @@ namespace Ex03.GarageLogic
             LicenseNumber = i_LicenseNumber;
         }
 
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>();
+            result.Add(new VehicleCreator.RequiredData("please enter how many wheels your vehicle have", typeof(int)));
+            result.AddRange(Wheel.RequiredData());
+            result.Add(new VehicleCreator.RequiredData("please enter how many your vehicle model name", typeof(string)));
+            result.Add(new VehicleCreator.RequiredData("please enter how many your vehicle license number", typeof(string)));
+            return result;
+        }
+
         private readonly List<Wheel> r_Wheels;
 
         private readonly string r_ModelName;
@@ -52,7 +62,7 @@ namespace Ex03.GarageLogic
             {
                 if (int.TryParse(value, out int _) == false)
                 {
-                    throw new ValueNotInFormat("License Number have to be a number");
+                    throw new ValueNotInFormatException("License Number have to be a number");
                 }
 
                 m_LicenseNumber = value;

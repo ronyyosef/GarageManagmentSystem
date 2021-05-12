@@ -1,4 +1,6 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+
+namespace Ex03.GarageLogic
 {
     public class Wheel
     {
@@ -47,5 +49,15 @@
         public string ManufacturerName { get; set; }
 
         private float m_CurrentAirPressure;
+
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            return new List<VehicleCreator.RequiredData>
+                       {
+                           new VehicleCreator.RequiredData("What is the current air pressure?", typeof(float)),
+                           new VehicleCreator.RequiredData("What is the maximum air pressure?", typeof(float)),
+                           new VehicleCreator.RequiredData("What is the manufacturer name?", typeof(string)),
+                       };
+        }
     }
 }

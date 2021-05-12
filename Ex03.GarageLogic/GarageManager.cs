@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
-    public class Garage
+    public class GarageManager
     {
         public enum eVehicleStatus
         {
@@ -13,9 +13,10 @@ namespace Ex03.GarageLogic
 
         private readonly List<VehicleInTheGarage> r_VehicleInTheGarageList;
 
-        public Garage()
+        public GarageManager()
         {
             r_VehicleInTheGarageList = new List<VehicleInTheGarage>();
+            /*
             Vehicle newCreatedVehicle = VehicleCreator.CreateNewElectricCar(
                         30,
                         10,
@@ -26,9 +27,10 @@ namespace Ex03.GarageLogic
                         Car.eColors.Black);
             Owner ronyOwner = new Owner("rony", "0532840340");
             r_VehicleInTheGarageList.Add(new VehicleInTheGarage(ronyOwner, newCreatedVehicle));
+            */
         }
 
-        public void AllVehiclesLicenseNumberListFiltered(List<string> i_VehiclesLicenseNumber, Garage.eVehicleStatus i_FilterBy)
+        public void AllVehiclesLicenseNumberListFiltered(List<string> i_VehiclesLicenseNumber, GarageManager.eVehicleStatus i_FilterBy)
         {
             foreach (VehicleInTheGarage vehicleInGarage in r_VehicleInTheGarageList)
             {

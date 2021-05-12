@@ -11,5 +11,13 @@ namespace Ex03.GarageLogic
         {
             r_car = new Car(i_DoorNumber, i_CarColor);
         }
+
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>();
+            result.AddRange(ElectricVehicle.RequiredData());
+            result.AddRange(Car.RequiredData());
+            return result;
+        }
     }
 }

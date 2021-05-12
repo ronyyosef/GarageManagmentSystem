@@ -11,5 +11,10 @@ namespace Ex03.GarageLogic
         {
             r_Motorcycle = new Motorcycle(i_LicenseType, i_EngineCapacityCc);
         }
+
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

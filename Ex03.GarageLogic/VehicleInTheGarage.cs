@@ -11,7 +11,7 @@ namespace Ex03.GarageLogic
             r_Vehicle = i_Vehicle;
         }
 
-        public Garage.eVehicleStatus Status { get; set; }
+        public GarageManager.eVehicleStatus Status { get; set; }
 
         public string GetLicenseNumber()
         {

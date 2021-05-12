@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -28,6 +24,20 @@ namespace Ex03.GarageLogic
         {
             r_Doors = i_DoorNumber;
             r_CarColor = i_CarColor;
+        }
+
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>
+                                                           {
+                                                               new VehicleCreator.RequiredData(
+                                                                   "How many doors your car have?",
+                                                                   typeof(eDoorsNumber)),
+                                                               new VehicleCreator.RequiredData(
+                                                                   "What is your car color?",
+                                                                   typeof(eColors))
+                                                           };
+            return result;
         }
 
         private readonly eDoorsNumber r_Doors;

@@ -1,7 +1,7 @@
 using Ex03.GarageLogic;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
+using System.ComponentModel;
 using System.Text;
 
 namespace Ex03.ConsoleUI
@@ -22,11 +22,11 @@ namespace Ex03.ConsoleUI
 
         private eUserChoice m_UserChoice;
         private bool m_ToQuit;
-        private readonly Garage r_Garage;
+        private readonly GarageManager r_GarageManager;
 
         public UI()
         {
-            r_Garage = new Garage();
+            r_GarageManager = new GarageManager();
             m_ToQuit = false;
         }
 
@@ -38,6 +38,7 @@ namespace Ex03.ConsoleUI
                 {
                     DisplayMenu();
                     getUserChoice();
+                    Console.Clear();
                     switch (m_UserChoice)
                     {
                         case eUserChoice.AddNewVehicle:
@@ -90,7 +91,69 @@ namespace Ex03.ConsoleUI
 
         private void addNewVehicleToTheGarage()
         {
-            throw new NotImplementedException();
+            showAvailableVehicles();
+            addNewVehicleToTheGarageGetUserInput(out string userInput);
+            List<VehicleCreator.RequiredData> vehicleRequiresList = VehicleCreator.CreateRequiredDataList(userInput);
+            List<object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresList);
+        }
+
+        private List<object> GetVehicleDataFromUser(List<VehicleCreator.RequiredData> i_VehicleRequiresList)
+        {
+            List<object> result = new List<object>();
+            object afterConvert = null;
+            foreach (VehicleCreator.RequiredData fieldData in i_VehicleRequiresList)
+            {
+                Console.WriteLine(fieldData.Question);
+                bool CurrentInputValid = false;
+                while (CurrentInputValid == false)
+                {
+                    string userInput = Console.ReadLine();
+                    TypeConverter converter = TypeDescriptor.GetConverter(fieldData.InputType);
+                    if (converter != null && converter.IsValid(userInput))
+                    {
+                        afterConvert = converter.ConvertFromString(userInput);
+                        CurrentInputValid = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("The input is not in the correct format");
+                    }
+                }
+                result.Add(afterConvert);
+            }
+
+            return result;
+        }
+
+        private void addNewVehicleToTheGarageGetUserInput(out string i_UserInput)
+        {
+            i_UserInput = "";
+            bool validInput = false;
+            while (validInput == false)
+            {
+                i_UserInput = Console.ReadLine();
+                if (VehicleCreator.sr_AvailableVehicles.Contains(i_UserInput))
+                {
+                    validInput = true;
+                }
+                else
+                {
+                    Console.WriteLine("This is not a valid vehicle name");
+                }
+            }
+        }
+
+        private void showAvailableVehicles()
+        {
+            StringBuilder toPrint = new StringBuilder();
+            toPrint.Append("Which of the following Vehicle do you want to create?");
+            foreach (string vehicleName in VehicleCreator.sr_AvailableVehicles)
+            {
+                toPrint.Append(Environment.NewLine);
+                toPrint.Append(vehicleName);
+            }
+            toPrint.Append(Environment.NewLine);
+            Console.WriteLine(toPrint);
         }
 
         private void getUserChoice()
@@ -122,7 +185,7 @@ namespace Ex03.ConsoleUI
 
         private void DisplayMenu()
         {
-            Ex02.ConsoleUtils.Screen.Clear();
+            Console.Clear();
             Console.WriteLine(
     @"1. Add new vehicle to the garage
 2. Display all vehicles in the garage
@@ -145,7 +208,7 @@ Enter a number:");
                 string answer = Console.ReadLine();
                 if (answer == "no")
                 {
-                    r_Garage.AllVehiclesLicenseNumberList(allVehiclesLicenseNumber);
+                    r_GarageManager.AllVehiclesLicenseNumberList(allVehiclesLicenseNumber);
                     validAnswer = true;
                 }
                 else if (answer == "yes")
@@ -170,7 +233,7 @@ Enter a number:");
             }
 
             toPrint.Append("Press any key to continue ...");
-            Ex02.ConsoleUtils.Screen.Clear();
+            Console.Clear();
             Console.WriteLine(toPrint);
             Console.ReadKey();
         }
@@ -178,7 +241,7 @@ Enter a number:");
         private void displayAllVehiclesLicenseNumberFiltered(List<string> i_AllVehiclesLicenseNumber)
         {
             StringBuilder filterPrint = new StringBuilder();
-            string[] possibleStatus = Enum.GetNames(typeof(Garage.eVehicleStatus));
+            string[] possibleStatus = Enum.GetNames(typeof(GarageManager.eVehicleStatus));
             filterPrint.Append("Which of the following status do you want to filter by? ");
 
             foreach (string strStatus in possibleStatus)
@@ -186,11 +249,11 @@ Enter a number:");
                 filterPrint.Append(Environment.NewLine);
                 filterPrint.Append(strStatus);
             }
-            Ex02.ConsoleUtils.Screen.Clear();
+            Console.Clear();
             Console.WriteLine(filterPrint);
 
             bool validAnswer = false;
-            Garage.eVehicleStatus statusToFilter = Garage.eVehicleStatus.InProgress;
+            GarageManager.eVehicleStatus statusToFilter = GarageManager.eVehicleStatus.InProgress;
             while (validAnswer == false)
             {
                 string filterBy = Console.ReadLine();
@@ -204,7 +267,7 @@ Enter a number:");
                 }
             }
 
-            r_Garage.AllVehiclesLicenseNumberListFiltered(i_AllVehiclesLicenseNumber, statusToFilter);
+            r_GarageManager.AllVehiclesLicenseNumberListFiltered(i_AllVehiclesLicenseNumber, statusToFilter);
         }
 
         private void DisplayAllVehiclesLicenseNumberFilter()

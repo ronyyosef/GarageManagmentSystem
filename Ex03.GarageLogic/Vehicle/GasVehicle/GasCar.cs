@@ -11,5 +11,10 @@ namespace Ex03.GarageLogic
         {
             r_Car = new Car(i_DoorNumber, i_CarColor);
         }
+
+        public static List<VehicleCreator.RequiredData> RequiredData()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
