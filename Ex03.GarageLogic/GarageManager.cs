@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ex03.GarageLogic
 {
@@ -11,42 +13,39 @@ namespace Ex03.GarageLogic
             Paid,
         }
 
-        private readonly List<VehicleInTheGarage> r_VehicleInTheGarageList;
+        private readonly Dictionary<string, VehicleInTheGarage> r_VehicleInTheGarageDictionary;
 
         public GarageManager()
         {
-            r_VehicleInTheGarageList = new List<VehicleInTheGarage>();
-            /*
-            Vehicle newCreatedVehicle = VehicleCreator.CreateNewElectricCar(
-                        30,
-                        10,
-                        new List<Wheel> { (new Wheel(10, 20, "willi")), },
-                        "skoda",
-                        "1234123",
-                        Car.eDoorsNumber.Four,
-                        Car.eColors.Black);
-            Owner ronyOwner = new Owner("rony", "0532840340");
-            r_VehicleInTheGarageList.Add(new VehicleInTheGarage(ronyOwner, newCreatedVehicle));
-            */
+            r_VehicleInTheGarageDictionary = new Dictionary<string, VehicleInTheGarage>();
         }
 
         public void AllVehiclesLicenseNumberListFiltered(List<string> i_VehiclesLicenseNumber, GarageManager.eVehicleStatus i_FilterBy)
         {
-            foreach (VehicleInTheGarage vehicleInGarage in r_VehicleInTheGarageList)
+            foreach (var vehicleInGarage in r_VehicleInTheGarageDictionary)
             {
-                if (vehicleInGarage.Status == i_FilterBy)
+                if (vehicleInGarage.Value.Status == i_FilterBy)
                 {
-                    i_VehiclesLicenseNumber.Add(vehicleInGarage.GetLicenseNumber());
+                    i_VehiclesLicenseNumber.Add(vehicleInGarage.Value.GetLicenseNumber());
                 }
             }
         }
 
         public void AllVehiclesLicenseNumberList(List<string> i_VehiclesLicenseNumber)
         {
-            foreach (VehicleInTheGarage vehicleInGarage in r_VehicleInTheGarageList)
+            foreach (var vehicleInGarage in r_VehicleInTheGarageDictionary)
             {
-                i_VehiclesLicenseNumber.Add(vehicleInGarage.GetLicenseNumber());
+                i_VehiclesLicenseNumber.Add(vehicleInGarage.Value.GetLicenseNumber());
             }
+        }
+
+        public void AddVehicle(Vehicle i_NewVehicle, Owner i_NewOwner)
+        {
+            if (r_VehicleInTheGarageDictionary.ContainsKey(i_NewVehicle.LicenseNumber))
+            {
+                throw new ArgumentException("This vehicle number already in the garage!!!");
+            }
+            r_VehicleInTheGarageDictionary.Add(i_NewVehicle.LicenseNumber, new VehicleInTheGarage(i_NewOwner, i_NewVehicle));
         }
     }
 }

@@ -28,11 +28,9 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add("licenseType", new VehicleCreator.RequiredData("Please enter the motorcycle license type:", typeof(eLicenseType)));
-            result.Add("carColor", new VehicleCreator.RequiredData("Please enter the motorcycle engine capacity CC:", typeof(int)));
+            result.Add("engineCapacityCc", new VehicleCreator.RequiredData("Please enter the motorcycle engine capacity CC:", typeof(int)));
             return result;
         }
-
-
 
         public eLicenseType LicenseType { get; }
 

@@ -15,7 +15,6 @@ namespace Ex03.GarageLogic
             LicenseNumber = i_LicenseNumber;
         }
 
-
         protected Vehicle(Dictionary<string, object> i_DataDictionary)
         {
             r_Wheels = new List<Wheel>();
@@ -31,7 +30,7 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add("numOfWheels", new VehicleCreator.RequiredData("please enter how many wheels your vehicle have", typeof(int)));
-            foreach(KeyValuePair<string, VehicleCreator.RequiredData> Require in Wheel.RequiredData())
+            foreach (KeyValuePair<string, VehicleCreator.RequiredData> Require in Wheel.RequiredData())
             {
                 result.Add(Require.Key, Require.Value);
             }

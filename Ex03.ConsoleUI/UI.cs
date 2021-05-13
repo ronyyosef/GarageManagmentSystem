@@ -10,8 +10,7 @@ namespace Ex03.ConsoleUI
     {
         /*
          *TODO change all enums show and input to numbers format
-         *TODO change DataList for user input to dictionary
-         *
+         *TODO Showing class names in prettier way
          */
 
         private enum eUserChoice
@@ -86,8 +85,15 @@ namespace Ex03.ConsoleUI
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
+                    PressAnyKeyToContinue();
                 }
             }
+        }
+
+        public static void PressAnyKeyToContinue()
+        {
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
 
         private void displayVehicleData()
@@ -97,36 +103,50 @@ namespace Ex03.ConsoleUI
 
         private void addNewVehicleToTheGarage()
         {
-            //showAvailableVehicles();
             ShowEnumOptions<VehicleCreator.eVehicleTypes>();
-            //addNewVehicleToTheGarageGetUserInput(out string userInput);//TODO change user input to enum
             GetEnumChoice<VehicleCreator.eVehicleTypes>(out VehicleCreator.eVehicleTypes userInput);
             Dictionary<string, VehicleCreator.RequiredData> vehicleRequiresDictionary = VehicleCreator.CreateRequiredDataList(userInput);
             Dictionary<string, object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresDictionary);
             Vehicle newVehicle = VehicleCreator.Create(userInput, vehicleDataList);
+            Owner newOwner = GetOwnerData();
+            r_GarageManager.AddVehicle(newVehicle, newOwner);
+        }
+
+        private Owner GetOwnerData()
+        {
+            Console.WriteLine("Please write your Name:");
+            string name = Console.ReadLine();
+            Console.WriteLine("Please write your Name:");
+            string phoneNumber = Console.ReadLine();
+
+            return new Owner(name, phoneNumber);
         }
 
         private Dictionary<string, object> GetVehicleDataFromUser(Dictionary<string, VehicleCreator.RequiredData> i_VehicleRequiresList)
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
-            object afterConvert = null;
             foreach (KeyValuePair<string, VehicleCreator.RequiredData> fieldData in i_VehicleRequiresList)
             {
-                Console.WriteLine(fieldData.Value.Question);
-                bool CurrentInputValid = false;
-                while (CurrentInputValid == false)
+                Type a = fieldData.Value.InputType;
+                Object b = a as object;
+                if (fieldData.Value.InputType.IsEnum)
                 {
-                    string userInput = Console.ReadLine();
-                    TypeConverter converter = TypeDescriptor.GetConverter(fieldData.Value.InputType);
-                    if (converter != null && converter.IsValid(userInput))
-                    {
-                        afterConvert = converter.ConvertFromString(userInput);
-                        CurrentInputValid = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("The input is not in the correct format");
-                    }
+                }
+                else
+                {
+                }
+
+                Console.WriteLine(fieldData.Value.Question);
+                string userInput = Console.ReadLine();
+                TypeConverter converter = TypeDescriptor.GetConverter(fieldData.Value.InputType);
+                object afterConvert = null;
+                if (converter != null && converter.IsValid(userInput ?? string.Empty))
+                {
+                    afterConvert = converter.ConvertFromString(userInput);
+                }
+                else
+                {
+                    throw new FormatException();
                 }
 
                 result.Add(fieldData.Key, afterConvert);
@@ -284,7 +304,7 @@ Enter a number:");
 
         private void ChangeVehicleStatus()
         {
-            Console.WriteLine("pleace enter");
+            Console.WriteLine("Please enter the vehicle license number");
         }
 
         private void InflateTiresToMax()
@@ -301,10 +321,14 @@ Enter a number:");
 
         public static void ShowEnumOptions<TEnum>()
         {
+            StringBuilder toPrint = new StringBuilder();
+            toPrint.Append("Please Choose a number from the list below:");
             foreach (string options in Enum.GetNames(typeof(TEnum)))
             {
-                Console.WriteLine("{0:D}.  {1}", Enum.Parse(typeof(TEnum), options), options);
+                toPrint.Append(Environment.NewLine);
+                toPrint.Append($"{Enum.Parse(typeof(TEnum), options):D}. {options}");
             }
+            Console.WriteLine(toPrint);
         }
 
         public void GetEnumChoice<TEnum>(out TEnum i_UserChoice) where TEnum : struct // will provide insurance that TEnum isn't nullable

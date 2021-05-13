@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
             r_Truck = new Truck(i_CarryingHazardousMaterials, i_MaximumCarryingWeight);
         }
 
-        protected GasTruck(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
+        public GasTruck(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
             r_Truck = new Truck(i_DataDictionary);
         }

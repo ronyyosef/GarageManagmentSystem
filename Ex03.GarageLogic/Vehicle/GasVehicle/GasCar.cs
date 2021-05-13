@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
             r_Car = new Car(i_DoorNumber, i_CarColor);
         }
 
-        protected GasCar(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
+        public GasCar(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
             r_Car = new Car(i_DataDictionary);
         }

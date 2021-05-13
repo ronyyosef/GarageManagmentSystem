@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
             r_Motorcycle = new Motorcycle(i_LicenseType, i_EngineCapacityCc);
         }
 
-        protected GasMotorcycle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
+        public GasMotorcycle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
             r_Motorcycle = new Motorcycle(i_DataDictionary);
         }
