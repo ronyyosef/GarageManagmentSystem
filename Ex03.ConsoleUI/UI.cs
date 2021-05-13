@@ -95,6 +95,7 @@ namespace Ex03.ConsoleUI
             addNewVehicleToTheGarageGetUserInput(out string userInput);
             List<VehicleCreator.RequiredData> vehicleRequiresList = VehicleCreator.CreateRequiredDataList(userInput);
             List<object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresList);
+            Vehicle newVehicle = VehicleCreator.Create(userInput, vehicleDataList);
         }
 
         private List<object> GetVehicleDataFromUser(List<VehicleCreator.RequiredData> i_VehicleRequiresList)
@@ -295,6 +296,36 @@ Enter a number:");
 
         private void chargeVehicle()
         {
+        }
+
+        public static void DisplayEnumOptions<T>()
+        {
+            foreach (string options in Enum.GetNames(typeof(T)))
+            {
+                Console.WriteLine("For {0} press {1:D}", options,
+                    Enum.Parse(typeof(T), options));
+            }
+        }
+
+        public int GetEnumChoiceFromUser<T>()
+        {
+            int amountOfOptions = Enum.GetNames(typeof(T)).Length;
+            bool validInput = false;
+            int userChosenNumber = 0;
+            while (validInput == false)
+            {
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out userChosenNumber))
+                {
+                    validInput = true;
+                }
+                else
+                {
+                    Console.WriteLine("This is not a valid vehicle name");
+                }
+            }
+
+            return userChosenNumber;
         }
     }
 }

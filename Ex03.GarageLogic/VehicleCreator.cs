@@ -103,5 +103,38 @@ namespace Ex03.GarageLogic
 
             return requiredData;
         }
+
+        public static Vehicle Create(string i_UserInput, List<object> i_VehicleDataList)
+        {
+            Vehicle newVehicle = null;
+            switch (i_UserInput)
+            {
+                case nameof(ElectricCar):
+                    newVehicle = new ElectricCar(i_VehicleDataList);
+                    break;
+
+                case nameof(ElectricMotorcycle):
+                    //newVehicle = ElectricMotorcycle(i_VehicleDataList);
+                    break;
+
+                case nameof(GasCar):
+                    //newVehicle = GasCar(i_VehicleDataList);
+                    break;
+
+                case nameof(GasMotorcycle):
+                    //newVehicle = GasMotorcycle(i_VehicleDataList);
+                    break;
+
+                case nameof(GasTruck):
+                    //newVehicle = GasTruck(i_VehicleDataList);
+                    break;
+
+                default:
+                    //throw new Exception("No such a vehicle");
+                    break;
+            }
+
+            return newVehicle;
+        }
     }
 }
