@@ -4,23 +4,25 @@ namespace Ex03.GarageLogic
 {
     internal class Truck
     {
+        //TODO delete
         public Truck(bool i_CarryingHazardousMaterials, float i_MaximumCarryingWeight)
         {
             r_CarryingHazardousMaterials = i_CarryingHazardousMaterials;
             r_MaximumCarryingWeight = i_MaximumCarryingWeight;
         }
 
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        public Truck(Dictionary<string, object> i_DataDictionary)
         {
-            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>
-                                                           {
-                                                               new VehicleCreator.RequiredData(
-                                                                   "Please enter if the truck carrying hazardous materials:",
-                                                                   typeof(bool)),
-                                                               new VehicleCreator.RequiredData(
-                                                                   "Please enter the truck maximum carrying weight:",
-                                                                   typeof(float))
-                                                           };
+            r_CarryingHazardousMaterials = (bool)i_DataDictionary["carryingHazardousMaterials"];
+            r_MaximumCarryingWeight = (float)i_DataDictionary["maximumCarryingWeight"];
+        }
+
+
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        {
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            result.Add("carryingHazardousMaterials", new VehicleCreator.RequiredData("Please enter if the truck carrying hazardous materials:", typeof(bool)));
+            result.Add("maximumCarryingWeight", new VehicleCreator.RequiredData("Please enter the truck maximum carrying weight:", typeof(float)));
             return result;
         }
 

@@ -12,9 +12,23 @@ namespace Ex03.GarageLogic
             r_Car = new Car(i_DoorNumber, i_CarColor);
         }
 
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        protected GasCar(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
-            throw new System.NotImplementedException();
+            r_Car = new Car(i_DataDictionary);
+        }
+
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        {
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            foreach (var Require in GasVehicle.RequiredData())
+            {
+                result.Add(Require.Key, Require.Value);
+            }
+            foreach (var Require in Car.RequiredData())
+            {
+                result.Add(Require.Key, Require.Value);
+            }
+            return result;
         }
     }
 }

@@ -18,19 +18,21 @@ namespace Ex03.GarageLogic
             EngineCapacityCc = i_EngineCapacityCc;
         }
 
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        public Motorcycle(Dictionary<string, object> i_DataDictionary)
         {
-            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>
-                                                           {
-                                                               new VehicleCreator.RequiredData(
-                                                                   "Please enter the motorcycle license type:",
-                                                                   typeof(eLicenseType)),
-                                                               new VehicleCreator.RequiredData(
-                                                                   "Please enter the motorcycle engine capacity CC:",
-                                                                   typeof(int))
-                                                           };
+            LicenseType = (eLicenseType)i_DataDictionary["licenseType"];
+            EngineCapacityCc = (int)i_DataDictionary["engineCapacityCc"];
+        }
+
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        {
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            result.Add("licenseType", new VehicleCreator.RequiredData("Please enter the motorcycle license type:", typeof(eLicenseType)));
+            result.Add("carColor", new VehicleCreator.RequiredData("Please enter the motorcycle engine capacity CC:", typeof(int)));
             return result;
         }
+
+
 
         public eLicenseType LicenseType { get; }
 

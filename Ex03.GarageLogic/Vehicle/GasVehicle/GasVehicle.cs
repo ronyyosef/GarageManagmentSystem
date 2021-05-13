@@ -23,13 +23,26 @@ namespace Ex03.GarageLogic
             EnergyPercent = (i_CurrentFuelAmountLiter / i_MaxFuelAmountLiter) * 100;
         }
 
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        protected GasVehicle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
-            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>();
-            result.Add(new VehicleCreator.RequiredData("Please enter the fuel type:", typeof(eFuelType)));
-            result.Add(new VehicleCreator.RequiredData("Please enter the current fuel amount in liters:", typeof(float)));
-            result.Add(new VehicleCreator.RequiredData("Please enter the max fuel amount in liters:", typeof(float)));
-            result.AddRange(Vehicle.RequiredData());
+            r_FuelType = (eFuelType)i_DataDictionary["fuelType"];
+            CurrentFuelAmountLiter = (float)i_DataDictionary["currentFuelAmountLiter"];
+            float maxFuelAmountLiter = (float)i_DataDictionary["maxFuelAmountLiter"];
+            maxFuelCheck(maxFuelAmountLiter);
+            r_MaxFuelAmountLiter = maxFuelAmountLiter;
+            EnergyPercent = (CurrentFuelAmountLiter / r_MaxFuelAmountLiter) * 100;
+        }
+
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        {
+            Dictionary<string,VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            result.Add("fuleType",new VehicleCreator.RequiredData("Please enter the fuel type:", typeof(eFuelType)));
+            result.Add("currentFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the current fuel amount in liters:", typeof(float)));
+            result.Add("maxFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the max fuel amount in liters:", typeof(float)));
+            foreach (var Require in Vehicle.RequiredData())
+            {
+                result.Add(Require.Key, Require.Value);
+            }
             return result;
         }
 

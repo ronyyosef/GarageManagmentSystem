@@ -14,20 +14,16 @@ namespace Ex03.ConsoleUI
          *
          */
 
-        public void sum()
-        {
-        }
-
         private enum eUserChoice
         {
             AddNewVehicle = 1,
-            DisplayAllVehicles = 2,
-            ChangeVehicleStatus = 3,
-            InflateAllTires = 4,
-            RefuelVehicle = 5,
-            ChargeVehicle = 6,
-            DisplayVehicleData = 7,
-            Quit = 8,
+            DisplayAllVehicles,
+            ChangeVehicleStatus,
+            InflateAllTires,
+            RefuelVehicle,
+            ChargeVehicle,
+            DisplayVehicleData,
+            Quit,
         }
 
         private eUserChoice m_UserChoice;
@@ -101,25 +97,27 @@ namespace Ex03.ConsoleUI
 
         private void addNewVehicleToTheGarage()
         {
-            showAvailableVehicles();
-            addNewVehicleToTheGarageGetUserInput(out string userInput);//TODO change user input to enum
+            //showAvailableVehicles();
+            ShowEnumOptions<VehicleCreator.eVehicleTypes>();
+            //addNewVehicleToTheGarageGetUserInput(out string userInput);//TODO change user input to enum
+            GetEnumChoice<VehicleCreator.eVehicleTypes>(out VehicleCreator.eVehicleTypes userInput);
             Dictionary<string, VehicleCreator.RequiredData> vehicleRequiresDictionary = VehicleCreator.CreateRequiredDataList(userInput);
-            List<object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresDictionary);
+            Dictionary<string, object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresDictionary);
             Vehicle newVehicle = VehicleCreator.Create(userInput, vehicleDataList);
         }
 
-        private List<object> GetVehicleDataFromUser(Dictionary<string, VehicleCreator.RequiredData> i_VehicleRequiresList)
+        private Dictionary<string, object> GetVehicleDataFromUser(Dictionary<string, VehicleCreator.RequiredData> i_VehicleRequiresList)
         {
-            List<object> result = new List<object>();
+            Dictionary<string, object> result = new Dictionary<string, object>();
             object afterConvert = null;
-            foreach (VehicleCreator.RequiredData fieldData in i_VehicleRequiresList)
+            foreach (KeyValuePair<string, VehicleCreator.RequiredData> fieldData in i_VehicleRequiresList)
             {
-                Console.WriteLine(fieldData.Question);
+                Console.WriteLine(fieldData.Value.Question);
                 bool CurrentInputValid = false;
                 while (CurrentInputValid == false)
                 {
                     string userInput = Console.ReadLine();
-                    TypeConverter converter = TypeDescriptor.GetConverter(fieldData.InputType);
+                    TypeConverter converter = TypeDescriptor.GetConverter(fieldData.Value.InputType);
                     if (converter != null && converter.IsValid(userInput))
                     {
                         afterConvert = converter.ConvertFromString(userInput);
@@ -130,12 +128,14 @@ namespace Ex03.ConsoleUI
                         Console.WriteLine("The input is not in the correct format");
                     }
                 }
-                result.Add(afterConvert);
+
+                result.Add(fieldData.Key, afterConvert);
             }
 
             return result;
         }
 
+        /*
         private void addNewVehicleToTheGarageGetUserInput(out string i_UserInput)
         {
             i_UserInput = "";
@@ -153,7 +153,9 @@ namespace Ex03.ConsoleUI
                 }
             }
         }
+        */
 
+        /*
         private void showAvailableVehicles()
         {
             StringBuilder toPrint = new StringBuilder();
@@ -166,6 +168,7 @@ namespace Ex03.ConsoleUI
             toPrint.Append(Environment.NewLine);
             Console.WriteLine(toPrint);
         }
+        */
 
         private void getUserChoice()
         {
@@ -251,6 +254,7 @@ Enter a number:");
 
         private void displayAllVehiclesLicenseNumberFiltered(List<string> i_AllVehiclesLicenseNumber)
         {
+            int optionsCounter = 0;
             StringBuilder filterPrint = new StringBuilder();
             string[] possibleStatus = Enum.GetNames(typeof(GarageManager.eVehicleStatus));
             filterPrint.Append("Which of the following status do you want to filter by? ");
@@ -263,22 +267,9 @@ Enter a number:");
             Console.Clear();
             Console.WriteLine(filterPrint);
 
-            bool validAnswer = false;
-            GarageManager.eVehicleStatus statusToFilter = GarageManager.eVehicleStatus.InProgress;
-            while (validAnswer == false)
-            {
-                string filterBy = Console.ReadLine();
-                if (Enum.TryParse(filterBy, out statusToFilter) == false)
-                {
-                    Console.WriteLine("This is not one of the possible filter");
-                }
-                else
-                {
-                    validAnswer = true;
-                }
-            }
-
-            r_GarageManager.AllVehiclesLicenseNumberListFiltered(i_AllVehiclesLicenseNumber, statusToFilter);
+            ShowEnumOptions<GarageManager.eVehicleStatus>();
+            GetEnumChoice<GarageManager.eVehicleStatus>(out GarageManager.eVehicleStatus userChoice);
+            r_GarageManager.AllVehiclesLicenseNumberListFiltered(i_AllVehiclesLicenseNumber, userChoice);
         }
 
         private void DisplayAllVehiclesLicenseNumberFilter()
@@ -288,7 +279,7 @@ Enter a number:");
             if (answer == "no")
             {
             }
-            Console.WriteLine("Which of the following status do you want to fillter by?");
+            Console.WriteLine("Which of the following status do you want to filter by?");
         }
 
         private void ChangeVehicleStatus()
@@ -308,33 +299,22 @@ Enter a number:");
         {
         }
 
-        public static void ShowEnumOptions<T>()
+        public static void ShowEnumOptions<TEnum>()
         {
-            foreach (string options in Enum.GetNames(typeof(T)))
+            foreach (string options in Enum.GetNames(typeof(TEnum)))
             {
-                Console.WriteLine(" {1:D}. For {0}", options, Enum.Parse(typeof(T), options));
+                Console.WriteLine("{0:D}.  {1}", Enum.Parse(typeof(TEnum), options), options);
             }
         }
 
-        public int GetEnumChoice<T>()
+        public void GetEnumChoice<TEnum>(out TEnum i_UserChoice) where TEnum : struct // will provide insurance that TEnum isn't nullable
         {
-            int amountOfOptions = Enum.GetNames(typeof(T)).Length;
-            bool validInput = false;
-            int userChosenNumber = 0;
-            while (validInput == false)
+            int amountOfOptions = Enum.GetNames(typeof(TEnum)).Length;
+            string userInput = Console.ReadLine();
+            if (Enum.TryParse<TEnum>(userInput, out i_UserChoice) == false)
             {
-                string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out userChosenNumber))
-                {
-                    validInput = true;
-                }
-                else
-                {
-                    Console.WriteLine("This is not a valid vehicle name");
-                }
+                throw new FormatException();
             }
-
-            return userChosenNumber;
         }
     }
 }
