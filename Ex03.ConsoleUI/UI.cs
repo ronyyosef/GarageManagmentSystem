@@ -14,6 +14,10 @@ namespace Ex03.ConsoleUI
          *
          */
 
+        public void sum()
+        {
+        }
+
         private enum eUserChoice
         {
             AddNewVehicle = 1,
