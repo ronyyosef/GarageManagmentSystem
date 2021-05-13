@@ -77,11 +77,39 @@ namespace Ex03.GarageLogic
                 i_CarColor);
         }
 
-        public static Dictionary<string, RequiredData> CreateRequiredDataList(RequiredData i_UserChoice)
+        public static Dictionary<string, RequiredData> CreateRequiredDataList(eVehicleTypes i_UserChoice)
         {
+            Dictionary<string, RequiredData> requiredData;
             switch (i_UserChoice)
             {
-                case nameof(ElectricCar):
+                case eVehicleTypes.ElectricCar:
+                    requiredData = ElectricCar.RequiredData();
+                    break;
+
+                case eVehicleTypes.ElectricMotorcycle:
+                    requiredData = ElectricMotorcycle.RequiredData();
+                    break;
+
+                case eVehicleTypes.GasCar:
+                    requiredData = GasCar.RequiredData();
+                    break;
+
+                case eVehicleTypes.GasMotorcycle:
+                    requiredData = GasMotorcycle.RequiredData();
+                    break;
+
+                case eVehicleTypes.GasTruck:
+                    requiredData = GasTruck.RequiredData();
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(i_UserChoice), i_UserChoice, null);
+                    //CHANGE DEFAULT TO OUR EXCEPTION CLASS TYPE
+            }
+            /*
+            switch (i_UserChoice)
+            {
+                case eVehicleTypes.ElectricCar:
                     requiredData = ElectricCar.RequiredData();
                     break;
 
@@ -105,6 +133,7 @@ namespace Ex03.GarageLogic
                     throw new Exception("No such a vehicle");
                     break;
             }
+            */
 
             return requiredData;
         }

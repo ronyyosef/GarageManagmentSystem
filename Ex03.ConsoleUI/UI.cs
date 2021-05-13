@@ -100,10 +100,10 @@ namespace Ex03.ConsoleUI
             //showAvailableVehicles();
             ShowEnumOptions<VehicleCreator.eVehicleTypes>();
             //addNewVehicleToTheGarageGetUserInput(out string userInput);//TODO change user input to enum
-            GetEnumChoice<VehicleCreator.eVehicleTypes>(out VehicleCreator.eVehicleTypes userChoice);
-            Dictionary<string, VehicleCreator.RequiredData> vehicleRequiresDictionary = VehicleCreator.CreateRequiredDataList(userChoice);
+            GetEnumChoice<VehicleCreator.eVehicleTypes>(out VehicleCreator.eVehicleTypes userInput);
+            Dictionary<string, VehicleCreator.RequiredData> vehicleRequiresDictionary = VehicleCreator.CreateRequiredDataList(userInput);
             Dictionary<string, object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresDictionary);
-            Vehicle newVehicle = VehicleCreator.Create(userChoice, vehicleDataList);
+            Vehicle newVehicle = VehicleCreator.Create(userInput, vehicleDataList);
         }
 
         private Dictionary<string, object> GetVehicleDataFromUser(Dictionary<string, VehicleCreator.RequiredData> i_VehicleRequiresList)
