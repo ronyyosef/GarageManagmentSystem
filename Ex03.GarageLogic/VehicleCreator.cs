@@ -5,6 +5,15 @@ namespace Ex03.GarageLogic
 {
     public static class VehicleCreator
     {
+        public enum eVehicleTypes
+        {
+            ElectricCar = 1,
+            ElectricMotorcycle,
+            GasCar,
+            GasMotorcycle,
+            GasTruck,
+        }
+
         public struct RequiredData
         {
             public RequiredData(string i_Question, Type i_inputType)
@@ -68,10 +77,9 @@ namespace Ex03.GarageLogic
                 i_CarColor);
         }
 
-        public static Dictionary<string, VehicleCreator.RequiredData> CreateRequiredDataList(string i_UserInput)
+        public static Dictionary<string, RequiredData> CreateRequiredDataList(RequiredData i_UserChoice)
         {
-            Dictionary<string, VehicleCreator.RequiredData> requiredData;
-            switch (i_UserInput)
+            switch (i_UserChoice)
             {
                 case nameof(ElectricCar):
                     requiredData = ElectricCar.RequiredData();

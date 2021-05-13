@@ -29,11 +29,13 @@ namespace Ex03.GarageLogic
             }
         }
 
+        //TODO delete
         public Wheel(float i_MaxAirPressure)
         {
             this.MaxAirPressure = i_MaxAirPressure;
         }
 
+        //TODO delete
         public Wheel(float i_CurrentAirPressure, float i_MaxAirPressure, string i_ManufacturerName)
         {
             MaxAirPressure = i_MaxAirPressure;

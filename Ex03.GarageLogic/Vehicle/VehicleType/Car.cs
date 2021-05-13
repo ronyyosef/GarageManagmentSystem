@@ -20,23 +20,23 @@ namespace Ex03.GarageLogic
             Five,
         }
 
+        //TODO delete
         public Car(eDoorsNumber i_DoorNumber, eColors i_CarColor)
         {
             r_Doors = i_DoorNumber;
             r_CarColor = i_CarColor;
         }
-
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        public Car(Dictionary<string, object> i_DataDictionary)
         {
-            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>
-                                                           {
-                                                               new VehicleCreator.RequiredData(
-                                                                   "How many doors your car have?",
-                                                                   typeof(eDoorsNumber)),
-                                                               new VehicleCreator.RequiredData(
-                                                                   "What is your car color?",
-                                                                   typeof(eColors))
-                                                           };
+            r_Doors = (eDoorsNumber)i_DataDictionary["doorNumber"];
+            r_CarColor = (eColors)i_DataDictionary["carColor"];
+        }
+
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        {
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            result.Add("doorNumber", new VehicleCreator.RequiredData("How many doors your car have?", typeof(eDoorsNumber)));
+            result.Add("carColor", new VehicleCreator.RequiredData("What is your car color?", typeof(eColors)));
             return result;
         }
 

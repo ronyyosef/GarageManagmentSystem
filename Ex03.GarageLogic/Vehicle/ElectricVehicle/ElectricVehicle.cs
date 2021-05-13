@@ -6,6 +6,7 @@ namespace Ex03.GarageLogic
     {
         private const float k_MinBattery = 0;
 
+        //TODO delete
         protected ElectricVehicle(float i_MaxBatteryTime, float i_BatteryTimeRemain, List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber)
             : base(i_Wheels, i_ModelName, i_LicenseNumber)
         {
@@ -16,12 +17,25 @@ namespace Ex03.GarageLogic
             EnergyPercent = (m_BatteryTimeRemain / r_MaxBatteryTime);
         }
 
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        protected ElectricVehicle(Dictionary<string, object> i_DataDictionary)
+            : base(i_DataDictionary)
         {
-            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>();
-            result.Add(new VehicleCreator.RequiredData("Please enter the maximum battery time:", typeof(float)));
-            result.Add(new VehicleCreator.RequiredData("Please enter the current battery time remain:", typeof(float)));
-            result.AddRange(Vehicle.RequiredData());
+            maxBatteryCheck((float)i_DataDictionary["maxBatteryTime"]);
+            r_MaxBatteryTime = (float)i_DataDictionary["maxBatteryTime"];
+            BatteryTimeRemain = (float)i_DataDictionary["batteryTimeRemain"];
+            EnergyPercent = (BatteryTimeRemain / r_MaxBatteryTime);
+        }
+
+
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        {
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            result.Add("maxBatteryTime", new VehicleCreator.RequiredData("Please enter the maximum battery time:", typeof(float)));
+            result.Add("batteryTimeRemain", new VehicleCreator.RequiredData("Please enter the current battery time remain:", typeof(float)));
+            foreach (var Require in Vehicle.RequiredData())
+            {
+                result.Add(Require.Key, Require.Value);
+            }
             return result;
         }
 

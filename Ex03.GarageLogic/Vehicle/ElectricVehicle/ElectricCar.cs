@@ -6,25 +6,29 @@ namespace Ex03.GarageLogic
     {
         private readonly Car r_car;
 
+        //TODO delete
         public ElectricCar(float i_MaxBatteryTime, float i_BatteryTimeRemain, List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber, Car.eDoorsNumber i_DoorNumber, Car.eColors i_CarColor)
             : base(i_MaxBatteryTime, i_BatteryTimeRemain, i_Wheels, i_ModelName, i_LicenseNumber)
         {
             r_car = new Car(i_DoorNumber, i_CarColor);
         }
 
-        public ElectricCar(Dictionary<string, object> i_DataList) : base((float)i_DataList["maxBattery"], (float)i_DataList["batteryTimeRemain"], new List<Wheel> { new Wheel(10, 20, "rony") }/*need to be replace with wheels*/, (string)i_DataList["modelName"], (string)i_DataList["licenseNumber"])
+        public ElectricCar(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
-            r_car = new Car((Car.eDoorsNumber)i_DataList["doorNumber"], (Car.eColors)i_DataList["carColor"]);
+            r_car = new Car(i_DataDictionary);
         }
 
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            foreach (var req in ElectricVehicle.RequiredData())
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            foreach (var Require in ElectricVehicle.RequiredData())
             {
+                result.Add(Require.Key, Require.Value);
             }
-            result.AddRange(ElectricVehicle.RequiredData());
-            result.AddRange(Car.RequiredData());
+            foreach (var Require in Car.RequiredData())
+            {
+                result.Add(Require.Key, Require.Value);
+            }
             return result;
         }
     }

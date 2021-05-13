@@ -7,6 +7,7 @@ namespace Ex03.GarageLogic
         private const float k_MaxPercent = 100;
         private const float k_MinPercent = 0;
 
+        //TODO delete
         protected Vehicle(List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber)
         {
             r_Wheels = i_Wheels;
@@ -14,26 +15,28 @@ namespace Ex03.GarageLogic
             LicenseNumber = i_LicenseNumber;
         }
 
+
         protected Vehicle(Dictionary<string, object> i_DataDictionary)
         {
             r_Wheels = new List<Wheel>();
-            for (int i = 0; i < i_DataDictionary["numOfWheels"]; i++)
+            for (int i = 0; i < (int)i_DataDictionary["numOfWheels"]; i++)
             {
-                r_Wheels.Add(new Wheel((float)i_DataDictionary["currentAirP"], (float)i_DataDictionary["numOfWheels"], (string)i_DataDictionary["numOfWheels"]));
+                r_Wheels.Add(new Wheel((float)i_DataDictionary["currentAirPressure"], (float)i_DataDictionary["maxAirPressure"], (string)i_DataDictionary["manufacturerName"]));
             }
-            r_Wheels = i_Wheels;
-            r_ModelName = i_ModelName;
-            LicenseNumber = i_LicenseNumber;
+            r_ModelName = (string)i_DataDictionary["modelName"];
+            LicenseNumber = (string)i_DataDictionary["licenseNumber"];
         }
 
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
-            result.Add(" ", new VehicleCreator.RequiredData("please enter how many wheels your vehicle have", typeof(int)));
-            foreach (KeyValuePair<string, VehicleCreator.RequiredData> newRequiter in Wheel.RequiredData())
-                result.Add(newRequiter.Key, newRequiter.Value);
-            result.Add(" ", new VehicleCreator.RequiredData("please enter how many your vehicle model name", typeof(string)));
-            result.Add(" ", new VehicleCreator.RequiredData("please enter how many your vehicle license number", typeof(string)));
+            result.Add("numOfWheels", new VehicleCreator.RequiredData("please enter how many wheels your vehicle have", typeof(int)));
+            foreach(KeyValuePair<string, VehicleCreator.RequiredData> Require in Wheel.RequiredData())
+            {
+                result.Add(Require.Key, Require.Value);
+            }
+            result.Add("modelName", new VehicleCreator.RequiredData("please enter how many your vehicle model name", typeof(string)));
+            result.Add("licenseNumber", new VehicleCreator.RequiredData("please enter how many your vehicle license number", typeof(string)));
             return result;
         }
 
