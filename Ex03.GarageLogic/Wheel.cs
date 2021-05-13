@@ -50,14 +50,14 @@ namespace Ex03.GarageLogic
 
         private float m_CurrentAirPressure;
 
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
-            return new List<VehicleCreator.RequiredData>
-                       {
-                           new VehicleCreator.RequiredData("What is the current air pressure?", typeof(float)),
-                           new VehicleCreator.RequiredData("What is the maximum air pressure?", typeof(float)),
-                           new VehicleCreator.RequiredData("What is the manufacturer name?", typeof(string)),
-                       };
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            result.Add("numOfWheels", new VehicleCreator.RequiredData("How many wheels do your car have?", typeof(float)));
+            result.Add("airPressure", new VehicleCreator.RequiredData("What is the current air pressure?", typeof(float)));
+            result.Add("maxAirPressure", new VehicleCreator.RequiredData("What is the maximum air pressure?", typeof(float)));
+            result.Add("manufacturerName", new VehicleCreator.RequiredData("What is the manufacturer name?", typeof(string)));
+            return result;
         }
     }
 }

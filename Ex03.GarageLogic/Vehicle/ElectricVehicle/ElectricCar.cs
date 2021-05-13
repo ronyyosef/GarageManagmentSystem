@@ -12,14 +12,17 @@ namespace Ex03.GarageLogic
             r_car = new Car(i_DoorNumber, i_CarColor);
         }
 
-        public ElectricCar(List<object> i_DataList) : base((float)i_DataList[0], (float)i_DataList[1], new List<Wheel> { new Wheel(10, 20, "rony") }/*need to be replace with wheels*/, (string)i_DataList[3], (string)i_DataList[4])
+        public ElectricCar(Dictionary<string, object> i_DataList) : base((float)i_DataList["maxBattery"], (float)i_DataList["batteryTimeRemain"], new List<Wheel> { new Wheel(10, 20, "rony") }/*need to be replace with wheels*/, (string)i_DataList["modelName"], (string)i_DataList["licenseNumber"])
         {
-            r_car = new Car((Car.eDoorsNumber)i_DataList[5], (Car.eColors)i_DataList[6]);
+            r_car = new Car((Car.eDoorsNumber)i_DataList["doorNumber"], (Car.eColors)i_DataList["carColor"]);
         }
 
-        public static List<VehicleCreator.RequiredData> RequiredData()
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
-            List<VehicleCreator.RequiredData> result = new List<VehicleCreator.RequiredData>();
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            foreach (var req in ElectricVehicle.RequiredData())
+            {
+            }
             result.AddRange(ElectricVehicle.RequiredData());
             result.AddRange(Car.RequiredData());
             return result;

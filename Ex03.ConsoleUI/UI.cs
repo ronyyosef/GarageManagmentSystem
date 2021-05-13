@@ -8,6 +8,12 @@ namespace Ex03.ConsoleUI
 {
     internal class UI
     {
+        /*
+         *TODO change all enums show and input to numbers format
+         *TODO change DataList for user input to dictionary
+         *
+         */
+
         private enum eUserChoice
         {
             AddNewVehicle = 1,
@@ -92,13 +98,13 @@ namespace Ex03.ConsoleUI
         private void addNewVehicleToTheGarage()
         {
             showAvailableVehicles();
-            addNewVehicleToTheGarageGetUserInput(out string userInput);
-            List<VehicleCreator.RequiredData> vehicleRequiresList = VehicleCreator.CreateRequiredDataList(userInput);
-            List<object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresList);
+            addNewVehicleToTheGarageGetUserInput(out string userInput);//TODO change user input to enum
+            Dictionary<string, VehicleCreator.RequiredData> vehicleRequiresDictionary = VehicleCreator.CreateRequiredDataList(userInput);
+            List<object> vehicleDataList = GetVehicleDataFromUser(vehicleRequiresDictionary);
             Vehicle newVehicle = VehicleCreator.Create(userInput, vehicleDataList);
         }
 
-        private List<object> GetVehicleDataFromUser(List<VehicleCreator.RequiredData> i_VehicleRequiresList)
+        private List<object> GetVehicleDataFromUser(Dictionary<string, VehicleCreator.RequiredData> i_VehicleRequiresList)
         {
             List<object> result = new List<object>();
             object afterConvert = null;
@@ -298,16 +304,15 @@ Enter a number:");
         {
         }
 
-        public static void DisplayEnumOptions<T>()
+        public static void ShowEnumOptions<T>()
         {
             foreach (string options in Enum.GetNames(typeof(T)))
             {
-                Console.WriteLine("For {0} press {1:D}", options,
-                    Enum.Parse(typeof(T), options));
+                Console.WriteLine(" {1:D}. For {0}", options, Enum.Parse(typeof(T), options));
             }
         }
 
-        public int GetEnumChoiceFromUser<T>()
+        public int GetEnumChoice<T>()
         {
             int amountOfOptions = Enum.GetNames(typeof(T)).Length;
             bool validInput = false;

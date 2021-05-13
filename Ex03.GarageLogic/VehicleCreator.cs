@@ -18,6 +18,7 @@ namespace Ex03.GarageLogic
             public Type InputType { get; set; }
         }
 
+        //TODO change to enum
         public static readonly List<string> sr_AvailableVehicles = new List<string>
             {
                 nameof(ElectricCar),
@@ -67,13 +68,9 @@ namespace Ex03.GarageLogic
                 i_CarColor);
         }
 
-        public static void VehicleToCreate(List<string> i_VehicleList)
+        public static Dictionary<string, VehicleCreator.RequiredData> CreateRequiredDataList(string i_UserInput)
         {
-        }
-
-        public static List<RequiredData> CreateRequiredDataList(string i_UserInput)
-        {
-            List<RequiredData> requiredData;
+            Dictionary<string, VehicleCreator.RequiredData> requiredData;
             switch (i_UserInput)
             {
                 case nameof(ElectricCar):
@@ -104,7 +101,8 @@ namespace Ex03.GarageLogic
             return requiredData;
         }
 
-        public static Vehicle Create(string i_UserInput, List<object> i_VehicleDataList)
+        //TODO change userinput to avilable vehicle enum
+        public static Vehicle Create(string i_UserInput, Dictionary<string, object> i_VehicleDataList)
         {
             Vehicle newVehicle = null;
             switch (i_UserInput)
