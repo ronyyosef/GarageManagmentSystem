@@ -26,17 +26,16 @@ namespace Ex03.GarageLogic
         protected GasVehicle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
             r_FuelType = (eFuelType)i_DataDictionary["fuelType"];
+            r_MaxFuelAmountLiter = (float)i_DataDictionary["maxFuelAmountLiter"];
+            maxFuelCheck(r_MaxFuelAmountLiter);
             CurrentFuelAmountLiter = (float)i_DataDictionary["currentFuelAmountLiter"];
-            float maxFuelAmountLiter = (float)i_DataDictionary["maxFuelAmountLiter"];
-            maxFuelCheck(maxFuelAmountLiter);
-            r_MaxFuelAmountLiter = maxFuelAmountLiter;
             EnergyPercent = (CurrentFuelAmountLiter / r_MaxFuelAmountLiter) * 100;
         }
 
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
-            result.Add("fuleType", new VehicleCreator.RequiredData("Please enter the fuel type:", typeof(eFuelType)));
+            result.Add("fuelType", new VehicleCreator.RequiredData("Please enter the fuel type:", typeof(eFuelType)));
             result.Add("currentFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the current fuel amount in liters:", typeof(float)));
             result.Add("maxFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the max fuel amount in liters:", typeof(float)));
             foreach (var Require in Vehicle.RequiredData())
@@ -87,7 +86,6 @@ namespace Ex03.GarageLogic
             i_Dictionary.Add("fuelType", r_FuelType.ToString());
             i_Dictionary.Add("currentFuelAmountLiter", CurrentFuelAmountLiter.ToString());
             i_Dictionary.Add("maxFuelAmountLiter", r_MaxFuelAmountLiter.ToString());
-            i_Dictionary.Add("energyPercent", EnergyPercent.ToString());
         }
 
         private readonly float r_MaxFuelAmountLiter;

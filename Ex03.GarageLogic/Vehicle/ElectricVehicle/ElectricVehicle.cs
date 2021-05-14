@@ -23,7 +23,6 @@ namespace Ex03.GarageLogic
             maxBatteryCheck((float)i_DataDictionary["maxBatteryTime"]);
             r_MaxBatteryTime = (float)i_DataDictionary["maxBatteryTime"];
             BatteryTimeRemain = (float)i_DataDictionary["batteryTimeRemain"];
-            EnergyPercent = (BatteryTimeRemain / r_MaxBatteryTime);
         }
 
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()

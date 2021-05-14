@@ -90,7 +90,7 @@ namespace Ex03.ConsoleUI
                 catch (Exception e)
                 {
                     //TODO how to show the massage
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e);
                     PressAnyKeyToContinue();
                 }
             }
