@@ -17,7 +17,6 @@ namespace Ex03.GarageLogic
             r_MaximumCarryingWeight = (float)i_DataDictionary["maximumCarryingWeight"];
         }
 
-
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
@@ -40,6 +39,12 @@ namespace Ex03.GarageLogic
             {
                 return r_MaximumCarryingWeight;
             }
+        }
+
+        public void GetData(Dictionary<string, string> i_Dictionary)
+        {
+            i_Dictionary.Add("carryingHazardousMaterials", CarryingHazardousMaterials == true ? "Yes" : "No");
+            i_Dictionary.Add("maximumCarryingWeight", MaximumCarryingWeight.ToString());
         }
 
         private readonly bool r_CarryingHazardousMaterials;

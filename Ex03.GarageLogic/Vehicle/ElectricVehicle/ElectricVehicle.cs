@@ -26,7 +26,6 @@ namespace Ex03.GarageLogic
             EnergyPercent = (BatteryTimeRemain / r_MaxBatteryTime);
         }
 
-
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
@@ -72,12 +71,19 @@ namespace Ex03.GarageLogic
             }
         }
 
-        protected void Recharge(float i_ToAdd)
+        public void Recharge(float i_ToAdd)
         {
             BatteryTimeRemain += i_ToAdd;
         }
 
         private float m_BatteryTimeRemain;
         private readonly float r_MaxBatteryTime;
+
+        public override void GetData(Dictionary<string, string> i_Dictionary)
+        {
+            base.GetData(i_Dictionary);
+            i_Dictionary.Add("batteryTimeRemain", BatteryTimeRemain.ToString());
+            i_Dictionary.Add("maxBatteryTime", MaxBatteryTime.ToString());
+        }
     }
 }

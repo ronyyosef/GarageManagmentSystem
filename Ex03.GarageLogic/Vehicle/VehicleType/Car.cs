@@ -26,6 +26,7 @@ namespace Ex03.GarageLogic
             r_Doors = i_DoorNumber;
             r_CarColor = i_CarColor;
         }
+
         public Car(Dictionary<string, object> i_DataDictionary)
         {
             r_Doors = (eDoorsNumber)i_DataDictionary["doorNumber"];
@@ -42,5 +43,11 @@ namespace Ex03.GarageLogic
 
         private readonly eDoorsNumber r_Doors;
         private readonly eColors r_CarColor;
+
+        public void GetData(Dictionary<string, string> i_Dictionary)
+        {
+            i_Dictionary.Add("doorNumber", r_Doors.ToString());
+            i_Dictionary.Add("carColor", r_CarColor.ToString());
+        }
     }
 }

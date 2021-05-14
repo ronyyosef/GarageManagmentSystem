@@ -35,5 +35,11 @@ namespace Ex03.GarageLogic
         public eLicenseType LicenseType { get; }
 
         public int EngineCapacityCc { get; }
+
+        public void GetData(Dictionary<string, string> i_Dictionary)
+        {
+            i_Dictionary.Add("licenseType", LicenseType.ToString());
+            i_Dictionary.Add("engineCapacityCc", EngineCapacityCc.ToString());
+        }
     }
 }

@@ -60,5 +60,11 @@ namespace Ex03.GarageLogic
             result.Add("manufacturerName", new VehicleCreator.RequiredData("What is the manufacturer name?", typeof(string)));
             return result;
         }
+
+        public override string ToString()
+        {
+            return
+                $"manufacturer name: {ManufacturerName}, max air pressure: {MaxAirPressure}, current air pressure: {CurrentAirPressure}";
+        }
     }
 }

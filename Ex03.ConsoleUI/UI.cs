@@ -3,20 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Ex03.ConsoleUI
 {
     internal class UI
     {
         /*
-         *TODO change all enums show and input to numbers format
-         *TODO Showing class names in prettier way
+         *
          */
 
         private enum eUserChoice
         {
-            AddNewVehicle = 1,
-            DisplayAllVehicles,
+            AddNewVehicleToTheGarage = 1,
+            DisplayAllVehiclesInTheGarage,
             ChangeVehicleStatus,
             InflateAllTires,
             RefuelVehicle,
@@ -46,20 +46,20 @@ namespace Ex03.ConsoleUI
                     Console.Clear();
                     switch (m_UserChoice)
                     {
-                        case eUserChoice.AddNewVehicle:
+                        case eUserChoice.AddNewVehicleToTheGarage:
                             addNewVehicleToTheGarage();
                             break;
 
-                        case eUserChoice.DisplayAllVehicles:
+                        case eUserChoice.DisplayAllVehiclesInTheGarage:
                             DisplayAllVehiclesLicenseNumber();
                             break;
 
                         case eUserChoice.ChangeVehicleStatus:
-                            ChangeVehicleStatus();
+                            changeVehicleStatus();
                             break;
 
                         case eUserChoice.InflateAllTires:
-                            InflateTiresToMax();
+                            inflateTires();
                             break;
 
                         case eUserChoice.RefuelVehicle:
@@ -67,7 +67,7 @@ namespace Ex03.ConsoleUI
                             break;
 
                         case eUserChoice.ChargeVehicle:
-                            chargeVehicle();
+                            rechargeVehicle();
                             break;
 
                         case eUserChoice.DisplayVehicleData:
@@ -82,9 +82,15 @@ namespace Ex03.ConsoleUI
                             break;
                     }
                 }
+                catch (ValueOutOfRangeException e)
+                {
+                    Console.WriteLine($"The maxim value is:{e.MaxValue}");
+                    Console.WriteLine($"The minim value is:{e.MinValue}");
+                }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    //TODO how to show the massage
+                    Console.WriteLine(e.Message);
                     PressAnyKeyToContinue();
                 }
             }
@@ -98,7 +104,17 @@ namespace Ex03.ConsoleUI
 
         private void displayVehicleData()
         {
-            throw new NotImplementedException();
+            string vehicleLicense = getVehicleLicense();
+            StringBuilder toPrint = new StringBuilder();
+            Dictionary<string, string> dataDictionary = r_GarageManager.GetVehicleData(vehicleLicense);
+            foreach (var item in dataDictionary)
+            {
+                toPrint.Append($"{ToSentenceCaseStartUpperCase(item.Key)}: {item.Value}");
+                toPrint.Append(Environment.NewLine);
+            }
+            Console.Clear();
+            Console.WriteLine(toPrint);
+            PressAnyKeyToContinue();
         }
 
         private void addNewVehicleToTheGarage()
@@ -116,7 +132,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please write your Name:");
             string name = Console.ReadLine();
-            Console.WriteLine("Please write your Name:");
+            Console.WriteLine("Please write your phone number:");
             string phoneNumber = Console.ReadLine();
 
             return new Owner(name, phoneNumber);
@@ -127,16 +143,16 @@ namespace Ex03.ConsoleUI
             Dictionary<string, object> result = new Dictionary<string, object>();
             foreach (KeyValuePair<string, VehicleCreator.RequiredData> fieldData in i_VehicleRequiresList)
             {
-                Type a = fieldData.Value.InputType;
-                Object b = a as object;
+                Console.WriteLine(fieldData.Value.Question);
                 if (fieldData.Value.InputType.IsEnum)
                 {
-                }
-                else
-                {
+                    Console.WriteLine("Options: " + string.Join(", ", Enum.GetNames(fieldData.Value.InputType)));
                 }
 
-                Console.WriteLine(fieldData.Value.Question);
+                if (fieldData.Value.InputType == typeof(bool))
+                {
+                    Console.WriteLine("Options: true, false");
+                }
                 string userInput = Console.ReadLine();
                 TypeConverter converter = TypeDescriptor.GetConverter(fieldData.Value.InputType);
                 object afterConvert = null;
@@ -155,81 +171,15 @@ namespace Ex03.ConsoleUI
             return result;
         }
 
-        /*
-        private void addNewVehicleToTheGarageGetUserInput(out string i_UserInput)
-        {
-            i_UserInput = "";
-            bool validInput = false;
-            while (validInput == false)
-            {
-                i_UserInput = Console.ReadLine();
-                if (VehicleCreator.sr_AvailableVehicles.Contains(i_UserInput))
-                {
-                    validInput = true;
-                }
-                else
-                {
-                    Console.WriteLine("This is not a valid vehicle name");
-                }
-            }
-        }
-        */
-
-        /*
-        private void showAvailableVehicles()
-        {
-            StringBuilder toPrint = new StringBuilder();
-            toPrint.Append("Which of the following Vehicle do you want to create?");
-            foreach (string vehicleName in VehicleCreator.sr_AvailableVehicles)
-            {
-                toPrint.Append(Environment.NewLine);
-                toPrint.Append(vehicleName);
-            }
-            toPrint.Append(Environment.NewLine);
-            Console.WriteLine(toPrint);
-        }
-        */
-
         private void getUserChoice()
         {
-            bool inputValid = false;
-            while (inputValid == false)
-            {
-                string userInputString = Console.ReadLine();
-                bool successfulParsed = int.TryParse(userInputString, out int userInput);
-                if (successfulParsed == true)
-                {
-                    if (Enum.IsDefined(typeof(eUserChoice), userInput) == true)
-                    {
-                        m_UserChoice = (eUserChoice)userInput;
-                        inputValid = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("This is not a valid input");
-                    }
-                }
-                else
-                {
-                    DisplayMenu();
-                    Console.WriteLine("This is not a number");
-                }
-            }
+            GetEnumChoice(out m_UserChoice);
         }
 
         private void DisplayMenu()
         {
             Console.Clear();
-            Console.WriteLine(
-    @"1. Add new vehicle to the garage
-2. Display all vehicles in the garage
-3. Change vehicle status
-4. Inflate all tires
-5. Refuel vehicle
-6. Charge vehicle
-7. Show vehicle data
-8. Quit
-Enter a number:");
+            ShowEnumOptions<eUserChoice>();
         }
 
         public void DisplayAllVehiclesLicenseNumber()
@@ -274,7 +224,6 @@ Enter a number:");
 
         private void displayAllVehiclesLicenseNumberFiltered(List<string> i_AllVehiclesLicenseNumber)
         {
-            int optionsCounter = 0;
             StringBuilder filterPrint = new StringBuilder();
             string[] possibleStatus = Enum.GetNames(typeof(GarageManager.eVehicleStatus));
             filterPrint.Append("Which of the following status do you want to filter by? ");
@@ -302,21 +251,66 @@ Enter a number:");
             Console.WriteLine("Which of the following status do you want to filter by?");
         }
 
-        private void ChangeVehicleStatus()
+        private string getVehicleLicense()
         {
             Console.WriteLine("Please enter the vehicle license number");
+            string vehicleLicense = Console.ReadLine();
+            return vehicleLicense;
         }
 
-        private void InflateTiresToMax()
+        private void changeVehicleStatus()
         {
+            string vehicleLicense = getVehicleLicense();
+            GarageManager.eVehicleStatus vehicleStatus = r_GarageManager.GetVehicleStatus(vehicleLicense);
+            Console.WriteLine($"The current status is: {ToSentenceCaseStartLowerCase(vehicleStatus.ToString())}");
+            ShowEnumOptions<GarageManager.eVehicleStatus>();
+            GetEnumChoice(out GarageManager.eVehicleStatus newStatus);
+            r_GarageManager.ChangeVehicleStatus(vehicleLicense, newStatus);
+        }
+
+        private void inflateTires()
+        {
+            string vehicleLicense = getVehicleLicense();
+            Console.WriteLine("How much to inflate?");
+            string userInput = Console.ReadLine();
+            if (float.TryParse(userInput, out float toInflate))
+            {
+                r_GarageManager.InflateTires(vehicleLicense, toInflate);
+            }
+            else
+            {
+                throw new FormatException();
+            }
         }
 
         private void refuelVehicle()
         {
+            string vehicleLicense = getVehicleLicense();
+            Console.WriteLine("How much to refuel?");
+            string userInput = Console.ReadLine();
+            if (float.TryParse(userInput, out float toRefuel))
+            {
+                r_GarageManager.RefuelVehicle(vehicleLicense, toRefuel);
+            }
+            else
+            {
+                throw new FormatException();
+            }
         }
 
-        private void chargeVehicle()
+        private void rechargeVehicle()
         {
+            string vehicleLicense = getVehicleLicense();
+            Console.WriteLine("How much to charge?");
+            string userInput = Console.ReadLine();
+            if (float.TryParse(userInput, out float toCharge))
+            {
+                r_GarageManager.RechargeVehicle(vehicleLicense, toCharge);
+            }
+            else
+            {
+                throw new FormatException();
+            }
         }
 
         public static void ShowEnumOptions<TEnum>()
@@ -326,7 +320,8 @@ Enter a number:");
             foreach (string options in Enum.GetNames(typeof(TEnum)))
             {
                 toPrint.Append(Environment.NewLine);
-                toPrint.Append($"{Enum.Parse(typeof(TEnum), options):D}. {options}");
+                string optionsSentenceCase = ToSentenceCaseStartUpperCase(options);
+                toPrint.Append($"{Enum.Parse(typeof(TEnum), options):D}. {optionsSentenceCase}");
             }
             Console.WriteLine(toPrint);
         }
@@ -339,6 +334,16 @@ Enter a number:");
             {
                 throw new FormatException();
             }
+        }
+
+        public static string ToSentenceCaseStartUpperCase(string i_Str)
+        {
+            return Regex.Replace(i_Str, "[a-z][A-Z]", m => $"{m.Value[0]} {char.ToLower(m.Value[1])}");
+        }
+
+        public static string ToSentenceCaseStartLowerCase(string i_Str)
+        {
+            return Regex.Replace(i_Str, "[a-z][A-Z]", m => $"{char.ToLower(m.Value[0])} {char.ToLower(m.Value[1])}");
         }
     }
 }

@@ -21,15 +21,21 @@ namespace Ex03.GarageLogic
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
-            foreach (var Require in GasVehicle.RequiredData())
+            foreach (var require in GasVehicle.RequiredData())
             {
-                result.Add(Require.Key, Require.Value);
+                result.Add(require.Key, require.Value);
             }
-            foreach (var Require in Truck.RequiredData())
+            foreach (var require in Truck.RequiredData())
             {
-                result.Add(Require.Key, Require.Value);
+                result.Add(require.Key, require.Value);
             }
             return result;
+        }
+
+        public override void GetData(Dictionary<string, string> i_Dictionary)
+        {
+            base.GetData(i_Dictionary);
+            r_Truck.GetData(i_Dictionary);
         }
     }
 }

@@ -47,5 +47,74 @@ namespace Ex03.GarageLogic
             }
             r_VehicleInTheGarageDictionary.Add(i_NewVehicle.LicenseNumber, new VehicleInTheGarage(i_NewOwner, i_NewVehicle));
         }
+
+        public eVehicleStatus GetVehicleStatus(string i_VehicleLicense)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void getVehicle(string i_VehicleLicense, out Vehicle i_Vehicle)
+        {
+            if (r_VehicleInTheGarageDictionary.TryGetValue(i_VehicleLicense, out VehicleInTheGarage vehicleInTheGarage) == false)
+            {
+                throw new ArgumentException("Vehicle not found");
+            }
+
+            i_Vehicle = vehicleInTheGarage.Vehicle;
+        }
+
+        public void InflateTires(string i_VehicleLicense, float i_ToInflate)
+        {
+            getVehicle(i_VehicleLicense, out Vehicle vehicle);
+            vehicle.Inflate(i_ToInflate);
+        }
+
+        public void ChangeVehicleStatus(string i_VehicleLicense, eVehicleStatus i_UserChoice)
+        {
+            getVehicleInTheGarage(i_VehicleLicense, out VehicleInTheGarage vehicleInTheGarage);
+            vehicleInTheGarage.Status = i_UserChoice;
+        }
+
+        private void getVehicleInTheGarage(string i_VehicleLicense, out VehicleInTheGarage i_VehicleInTheGarage)
+        {
+            if (r_VehicleInTheGarageDictionary.TryGetValue(i_VehicleLicense, out i_VehicleInTheGarage) == false)
+            {
+                throw new ArgumentException("Vehicle not found");
+            }
+        }
+
+        public void RefuelVehicle(string i_VehicleLicense, float i_ToRefuel)
+        {
+            getVehicle(i_VehicleLicense, out Vehicle vehicle);
+            if (vehicle is GasVehicle gasVehicle)
+            {
+                gasVehicle.Refuel(i_ToRefuel);
+            }
+            else
+            {
+                throw new ArgumentException("This is not a gas based vehicle");
+            }
+        }
+
+        public void RechargeVehicle(string i_VehicleLicense, float i_ToRecharge)
+        {
+            getVehicle(i_VehicleLicense, out Vehicle vehicle);
+            if (vehicle is ElectricVehicle gasVehicle)
+            {
+                gasVehicle.Recharge(i_ToRecharge);
+            }
+            else
+            {
+                throw new ArgumentException("This is not a gas based vehicle");
+            }
+        }
+
+        public Dictionary<string, string> GetVehicleData(string i_VehicleLicense)
+        {
+            getVehicleInTheGarage(i_VehicleLicense, out VehicleInTheGarage vehicleInTheGarage);
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            vehicleInTheGarage.GetData(dictionary);
+            return dictionary;
+        }
     }
 }

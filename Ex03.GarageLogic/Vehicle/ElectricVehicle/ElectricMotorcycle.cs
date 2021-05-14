@@ -13,7 +13,6 @@ namespace Ex03.GarageLogic
             r_Motorcycle = new Motorcycle(i_LicenseType, i_EngineCapacityCc);
         }
 
-
         public ElectricMotorcycle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
             r_Motorcycle = new Motorcycle(i_DataDictionary);
@@ -31,6 +30,12 @@ namespace Ex03.GarageLogic
                 result.Add(Require.Key, Require.Value);
             }
             return result;
+        }
+
+        public override void GetData(Dictionary<string, string> i_Dictionary)
+        {
+            base.GetData(i_Dictionary);
+            r_Motorcycle.GetData(i_Dictionary);
         }
     }
 }

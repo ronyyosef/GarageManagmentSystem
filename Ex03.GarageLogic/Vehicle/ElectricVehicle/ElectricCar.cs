@@ -31,5 +31,11 @@ namespace Ex03.GarageLogic
             }
             return result;
         }
+
+        public override void GetData(Dictionary<string, string> i_Dictionary)
+        {
+            base.GetData(i_Dictionary);
+            r_car.GetData(i_Dictionary);
+        }
     }
 }
