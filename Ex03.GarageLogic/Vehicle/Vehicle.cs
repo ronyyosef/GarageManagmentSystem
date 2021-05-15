@@ -8,18 +8,9 @@ namespace Ex03.GarageLogic
     {
         private const float k_MaxPercent = 100;
         private const float k_MinPercent = 0;
-        private List<Wheel> r_Wheels;
-        private string r_ModelName;
+        private readonly List<Wheel> r_Wheels;
+        private readonly string r_ModelName;
         private float m_EnergyPercent;
-        private string m_LicenseNumber;
-
-        //TODO delete
-        protected Vehicle(List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber)
-        {
-            r_Wheels = i_Wheels;
-            r_ModelName = i_ModelName;
-            LicenseNumber = i_LicenseNumber;
-        }
 
         protected Vehicle(Dictionary<string, object> i_DataDictionary)
         {
@@ -43,18 +34,18 @@ namespace Ex03.GarageLogic
                 new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add(
                 "numOfWheels",
-                new VehicleCreator.RequiredData("please enter how many wheels your vehicle have", typeof(int)));
-            foreach (KeyValuePair<string, VehicleCreator.RequiredData> Require in Wheel.RequiredData())
+                new VehicleCreator.RequiredData("Please enter how many wheels your vehicle have", typeof(int)));
+            foreach (KeyValuePair<string, VehicleCreator.RequiredData> require in Wheel.RequiredData())
             {
-                result.Add(Require.Key, Require.Value);
+                result.Add(require.Key, require.Value);
             }
 
             result.Add(
                 "modelName",
-                new VehicleCreator.RequiredData("please enter how many your vehicle model name", typeof(string)));
+                new VehicleCreator.RequiredData("Please enter your vehicle model name", typeof(string)));
             result.Add(
                 "licenseNumber",
-                new VehicleCreator.RequiredData("please enter how many your vehicle license number", typeof(string)));
+                new VehicleCreator.RequiredData("Please enter your vehicle license number", typeof(string)));
             return result;
         }
 
@@ -78,22 +69,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public string LicenseNumber
-        {
-            get
-            {
-                return m_LicenseNumber;
-            }
-            set
-            {
-                if (int.TryParse(value, out int _) == false)
-                {
-                    throw new ValueNotInFormatException("License Number have to be a number");
-                }
-
-                m_LicenseNumber = value;
-            }
-        }
+        public string LicenseNumber { get; set; }
 
         public void Inflate(float i_QuaToInflate)
         {

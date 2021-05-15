@@ -16,10 +16,10 @@ namespace Ex03.GarageLogic
 
         public struct RequiredData
         {
-            public RequiredData(string i_Question, Type i_inputType)
+            public RequiredData(string i_Question, Type i_InputType)
             {
                 Question = i_Question;
-                InputType = i_inputType;
+                InputType = i_InputType;
             }
 
             public string Question { get; set; }

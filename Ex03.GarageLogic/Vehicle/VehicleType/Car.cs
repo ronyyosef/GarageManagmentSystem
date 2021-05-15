@@ -20,13 +20,6 @@ namespace Ex03.GarageLogic
             Five,
         }
 
-        //TODO delete
-        public Car(eDoorsNumber i_DoorNumber, eColors i_CarColor)
-        {
-            r_Doors = i_DoorNumber;
-            r_CarColor = i_CarColor;
-        }
-
         public Car(Dictionary<string, object> i_DataDictionary)
         {
             r_Doors = (eDoorsNumber)i_DataDictionary["doorNumber"];

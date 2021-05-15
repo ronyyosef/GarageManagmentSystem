@@ -2,38 +2,33 @@
 
 namespace Ex03.GarageLogic
 {
-    public class ElectricMotorcycle : ElectricVehicle
+    internal class ElectricMotorcycle : ElectricVehicle
     {
         private readonly Motorcycle r_Motorcycle;
-
-        //TODO delete
-        public ElectricMotorcycle(float i_MaxBatteryTime, float i_BatteryTimeRemain, List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber, Motorcycle.eLicenseType i_LicenseType, int i_EngineCapacityCc)
-            : base(i_MaxBatteryTime, i_BatteryTimeRemain, i_Wheels, i_ModelName, i_LicenseNumber)
-        {
-            r_Motorcycle = new Motorcycle(i_LicenseType, i_EngineCapacityCc);
-        }
 
         public ElectricMotorcycle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
         {
             r_Motorcycle = new Motorcycle(i_DataDictionary);
         }
 
-        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
-            foreach (var Require in ElectricVehicle.RequiredData())
+            foreach (var require in ElectricVehicle.RequiredData())
             {
-                result.Add(Require.Key, Require.Value);
+                result.Add(require.Key, require.Value);
             }
-            foreach (var Require in Motorcycle.RequiredData())
+            foreach (var require in Motorcycle.RequiredData())
             {
-                result.Add(Require.Key, Require.Value);
+                result.Add(require.Key, require.Value);
             }
             return result;
         }
 
         public override void GetData(Dictionary<string, string> i_Dictionary)
         {
+            i_Dictionary.Add("vehicleType", "Electric motorcycle");
+
             base.GetData(i_Dictionary);
             r_Motorcycle.GetData(i_Dictionary);
         }

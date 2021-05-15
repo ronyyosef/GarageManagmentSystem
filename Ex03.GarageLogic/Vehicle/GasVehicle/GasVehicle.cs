@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -8,34 +9,24 @@ namespace Ex03.GarageLogic
 
         public enum eFuelType
         {
-            Soler,
+            Soler = 1,
             Octan95,
             Octan96,
             Octan98,
         }
 
-        protected GasVehicle(eFuelType i_FuelType, float i_CurrentFuelAmountLiter, float i_MaxFuelAmountLiter, List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber) : base(i_Wheels, i_ModelName, i_LicenseNumber)
+        protected GasVehicle(Dictionary<string, object> i_DataDictionary, eFuelType i_FuelType) : base(i_DataDictionary)
         {
             r_FuelType = i_FuelType;
-            CurrentFuelAmountLiter = i_CurrentFuelAmountLiter;
-            maxFuelCheck(i_MaxFuelAmountLiter);
-            r_MaxFuelAmountLiter = i_MaxFuelAmountLiter;
-            EnergyPercent = (i_CurrentFuelAmountLiter / i_MaxFuelAmountLiter) * 100;
-        }
-
-        protected GasVehicle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
-        {
-            r_FuelType = (eFuelType)i_DataDictionary["fuelType"];
             r_MaxFuelAmountLiter = (float)i_DataDictionary["maxFuelAmountLiter"];
             maxFuelCheck(r_MaxFuelAmountLiter);
             CurrentFuelAmountLiter = (float)i_DataDictionary["currentFuelAmountLiter"];
             EnergyPercent = (CurrentFuelAmountLiter / r_MaxFuelAmountLiter) * 100;
         }
 
-        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
-            result.Add("fuelType", new VehicleCreator.RequiredData("Please enter the fuel type:", typeof(eFuelType)));
             result.Add("currentFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the current fuel amount in liters:", typeof(float)));
             result.Add("maxFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the max fuel amount in liters:", typeof(float)));
             foreach (var Require in Vehicle.RequiredData())
@@ -53,8 +44,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void Refuel(float i_ToAdd)
+        public void Refuel(eFuelType i_FuelType, float i_ToAdd)
         {
+            if (i_FuelType != r_FuelType)
+            {
+                throw new ArgumentException($"This vehicle runs on {r_FuelType.ToString()} only!");
+            }
             CurrentFuelAmountLiter += i_ToAdd;
         }
 

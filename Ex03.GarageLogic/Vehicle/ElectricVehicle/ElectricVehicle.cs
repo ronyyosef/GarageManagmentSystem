@@ -6,26 +6,16 @@ namespace Ex03.GarageLogic
     {
         private const float k_MinBattery = 0;
 
-        //TODO delete
-        protected ElectricVehicle(float i_MaxBatteryTime, float i_BatteryTimeRemain, List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber)
-            : base(i_Wheels, i_ModelName, i_LicenseNumber)
-        {
-            maxBatteryCheck(i_MaxBatteryTime);
-            r_MaxBatteryTime = i_MaxBatteryTime;
-            BatteryTimeRemain = i_BatteryTimeRemain;
-
-            EnergyPercent = (m_BatteryTimeRemain / r_MaxBatteryTime);
-        }
-
         protected ElectricVehicle(Dictionary<string, object> i_DataDictionary)
             : base(i_DataDictionary)
         {
             maxBatteryCheck((float)i_DataDictionary["maxBatteryTime"]);
             r_MaxBatteryTime = (float)i_DataDictionary["maxBatteryTime"];
             BatteryTimeRemain = (float)i_DataDictionary["batteryTimeRemain"];
+            EnergyPercent = (m_BatteryTimeRemain / r_MaxBatteryTime);
         }
 
-        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add("maxBatteryTime", new VehicleCreator.RequiredData("Please enter the maximum battery time:", typeof(float)));

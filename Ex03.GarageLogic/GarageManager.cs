@@ -50,7 +50,7 @@ namespace Ex03.GarageLogic
 
         public eVehicleStatus GetVehicleStatus(string i_VehicleLicense)
         {
-            r_VehicleInTheGarageDictionary.TryGetValue(i_VehicleLicense, out VehicleInTheGarage vehicleInTheGarage);
+            getVehicleInTheGarage(i_VehicleLicense, out VehicleInTheGarage vehicleInTheGarage);
             return vehicleInTheGarage.Status;
         }
 
@@ -84,12 +84,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void RefuelVehicle(string i_VehicleLicense, float i_ToRefuel)
+        public void RefuelVehicle(string i_VehicleLicense, GasVehicle.eFuelType i_FuelType, float i_ToRefuel)
         {
             getVehicle(i_VehicleLicense, out Vehicle vehicle);
             if (vehicle is GasVehicle gasVehicle)
             {
-                gasVehicle.Refuel(i_ToRefuel);
+                gasVehicle.Refuel(i_FuelType, i_ToRefuel);
             }
             else
             {

@@ -2,22 +2,16 @@
 
 namespace Ex03.GarageLogic
 {
-    public class GasCar : GasVehicle
+    internal class GasCar : GasVehicle
     {
         private readonly Car r_Car;
 
-        public GasCar(eFuelType i_FuelType, float i_CurrentFuelAmountLiter, float i_MaxFuelAmountLiter, List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber, Car.eDoorsNumber i_DoorNumber, Car.eColors i_CarColor)
-            : base(i_FuelType, i_CurrentFuelAmountLiter, i_MaxFuelAmountLiter, i_Wheels, i_ModelName, i_LicenseNumber)
-        {
-            r_Car = new Car(i_DoorNumber, i_CarColor);
-        }
-
-        public GasCar(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
+        public GasCar(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary, GasVehicle.eFuelType.Octan95)
         {
             r_Car = new Car(i_DataDictionary);
         }
 
-        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             foreach (var Require in GasVehicle.RequiredData())
@@ -33,6 +27,7 @@ namespace Ex03.GarageLogic
 
         public override void GetData(Dictionary<string, string> i_Dictionary)
         {
+            i_Dictionary.Add("vehicleType", "Gas car");
             base.GetData(i_Dictionary);
             r_Car.GetData(i_Dictionary);
         }

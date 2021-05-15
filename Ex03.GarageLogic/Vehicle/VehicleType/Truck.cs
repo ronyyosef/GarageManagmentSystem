@@ -4,13 +4,6 @@ namespace Ex03.GarageLogic
 {
     internal class Truck
     {
-        //TODO delete
-        public Truck(bool i_CarryingHazardousMaterials, float i_MaximumCarryingWeight)
-        {
-            r_CarryingHazardousMaterials = i_CarryingHazardousMaterials;
-            r_MaximumCarryingWeight = i_MaximumCarryingWeight;
-        }
-
         public Truck(Dictionary<string, object> i_DataDictionary)
         {
             r_CarryingHazardousMaterials = (bool)i_DataDictionary["carryingHazardousMaterials"];

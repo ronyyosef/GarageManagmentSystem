@@ -2,23 +2,16 @@
 
 namespace Ex03.GarageLogic
 {
-    public class GasMotorcycle : GasVehicle
+    internal class GasMotorcycle : GasVehicle
     {
         private readonly Motorcycle r_Motorcycle;
 
-        //TODO delete
-        public GasMotorcycle(eFuelType i_FuelType, float i_CurrentFuelAmountLiter, float i_MaxFuelAmountLiter, List<Wheel> i_Wheels, string i_ModelName, string i_LicenseNumber, Motorcycle.eLicenseType i_LicenseType, int i_EngineCapacityCc)
-            : base(i_FuelType, i_CurrentFuelAmountLiter, i_MaxFuelAmountLiter, i_Wheels, i_ModelName, i_LicenseNumber)
-        {
-            r_Motorcycle = new Motorcycle(i_LicenseType, i_EngineCapacityCc);
-        }
-
-        public GasMotorcycle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
+        public GasMotorcycle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary, GasVehicle.eFuelType.Octan98)
         {
             r_Motorcycle = new Motorcycle(i_DataDictionary);
         }
 
-        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             foreach (var Require in GasVehicle.RequiredData())
@@ -34,6 +27,7 @@ namespace Ex03.GarageLogic
 
         public override void GetData(Dictionary<string, string> i_Dictionary)
         {
+            i_Dictionary.Add("vehicleType", "Gas motorcycle");
             base.GetData(i_Dictionary);
             r_Motorcycle.GetData(i_Dictionary);
         }
