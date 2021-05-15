@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
     {
         public enum eVehicleStatus
         {
-            InProgress,
+            InProgress = 1,
             Repaired,
             Paid,
         }
@@ -50,7 +50,8 @@ namespace Ex03.GarageLogic
 
         public eVehicleStatus GetVehicleStatus(string i_VehicleLicense)
         {
-            throw new NotImplementedException();
+            r_VehicleInTheGarageDictionary.TryGetValue(i_VehicleLicense, out VehicleInTheGarage vehicleInTheGarage);
+            return vehicleInTheGarage.Status;
         }
 
         private void getVehicle(string i_VehicleLicense, out Vehicle i_Vehicle)
