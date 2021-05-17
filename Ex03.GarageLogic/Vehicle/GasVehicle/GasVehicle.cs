@@ -40,7 +40,7 @@ namespace Ex03.GarageLogic
         {
             if (i_MaxFuelAmountLiter < k_MinFuel)
             {
-                throw new ValueOutOfRangeException("Max fuel isn't checked ,Fuel Amount", k_MinFuel, float.MaxValue);
+                throw new ValueOutOfRangeException($"Maximum fuel amount cannot be negative", k_MinFuel, float.MaxValue);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Ex03.GarageLogic
             {
                 if (value > r_MaxFuelAmountLiter || value < k_MinFuel)
                 {
-                    throw new ValueOutOfRangeException("Fuel Amount", k_MinFuel, r_MaxFuelAmountLiter);
+                    throw new ValueOutOfRangeException($"The current fuel Amount is {CurrentFuelAmountLiter}.", k_MinFuel, r_MaxFuelAmountLiter);
                 }
 
                 EnergyPercent = (value / r_MaxFuelAmountLiter) * 100;

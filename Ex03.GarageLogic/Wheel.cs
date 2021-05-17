@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -18,11 +19,11 @@ namespace Ex03.GarageLogic
             {
                 if ((value) > MaxAirPressure)
                 {
-                    throw new ValueOutOfRangeException("Air pressure", k_MinAirPressure, MaxAirPressure);
+                    throw new ValueOutOfRangeException($"The current air pressure is {CurrentAirPressure}.", k_MinAirPressure, MaxAirPressure);
                 }
                 if (value < k_MinAirPressure)
                 {
-                    throw new ValueOutOfRangeException("Air pressure", k_MinAirPressure, MaxAirPressure);
+                    throw new ValueOutOfRangeException($"The current air pressure is {CurrentAirPressure}.", k_MinAirPressure, MaxAirPressure);
                 }
 
                 m_CurrentAirPressure = value;

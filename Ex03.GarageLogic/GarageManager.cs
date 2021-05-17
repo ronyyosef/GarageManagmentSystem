@@ -100,13 +100,13 @@ namespace Ex03.GarageLogic
         public void RechargeVehicle(string i_VehicleLicense, float i_ToRecharge)
         {
             getVehicle(i_VehicleLicense, out Vehicle vehicle);
-            if (vehicle is ElectricVehicle gasVehicle)
+            if (vehicle is ElectricVehicle electricVehicle)
             {
-                gasVehicle.Recharge(i_ToRecharge);
+                electricVehicle.Recharge(i_ToRecharge);
             }
             else
             {
-                throw new ArgumentException("This is not a gas based vehicle");
+                throw new ArgumentException("This is not an electric based vehicle");
             }
         }
 

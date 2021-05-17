@@ -37,7 +37,7 @@ namespace Ex03.GarageLogic
             {
                 if (value > r_MaxBatteryTime || value < k_MinBattery)
                 {
-                    throw new ValueOutOfRangeException("Battery amount", k_MinBattery, r_MaxBatteryTime);
+                    throw new ValueOutOfRangeException($"The current battery amount is {BatteryTimeRemain}.", k_MinBattery, r_MaxBatteryTime);
                 }
                 m_BatteryTimeRemain = value;
                 EnergyPercent = (m_BatteryTimeRemain / r_MaxBatteryTime) * 100;

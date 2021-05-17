@@ -60,7 +60,7 @@ namespace Ex03.GarageLogic
                 if (m_EnergyPercent < k_MinPercent || m_EnergyPercent > k_MaxPercent)
                 {
                     throw new ValueOutOfRangeException(
-                        "Percent out of need to be between 0-100",
+                        "Percent out of range,need to be between 0-100.",
                         k_MinPercent,
                         k_MaxPercent);
                 }

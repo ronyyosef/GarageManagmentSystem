@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 
         public float MaxValue { get; set; }
 
-        public ValueOutOfRangeException(string i_Message, float i_MinValue, float i_MaxValue) : base($"Error : {i_Message} out of range")
+        public ValueOutOfRangeException(string i_Message, float i_MinValue, float i_MaxValue) : base($"Error : {i_Message}")
         {
             MinValue = i_MinValue;
             MaxValue = i_MaxValue;

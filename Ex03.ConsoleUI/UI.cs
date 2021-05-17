@@ -9,12 +9,6 @@ namespace Ex03.ConsoleUI
 {
     internal class UI
     {
-        /// <summary>
-        /// NOTE file for input is here on the project
-        /// TODO add massages to all exceptions and fix the print of the massages to a nicer way
-        /// TODO fix control flow of run: when to clear screen, when to use press any key to continue
-        /// TODO fix/ask Guy about battery in hours/min and fix accordingly
-        /// </summary>
         private enum eUserChoice
         {
             AddNewVehicleToTheGarage = 1,
@@ -86,8 +80,9 @@ namespace Ex03.ConsoleUI
                 }
                 catch (ValueOutOfRangeException e)
                 {
+                    Console.WriteLine(e.Message);
                     Console.WriteLine($"The maximum value is: {e.MaxValue}");
-				    Console.WriteLine($"The minimum value is: {e.MinValue}");
+                    Console.WriteLine($"The minimum value is: {e.MinValue}");
                     PressAnyKeyToContinue();
                 }
                 catch (FormatException e)
@@ -114,10 +109,6 @@ namespace Ex03.ConsoleUI
             Console.ReadKey();
         }
 
-        /// <summary>
-        /// this method display a vehicle data
-        /// dataDictionary expected to have the fields: "vehicleType" , "licenseNumber", "modelName"
-        /// </summary>
         private void displayVehicleData()
         {
             string vehicleLicense = getVehicleLicense();
@@ -150,7 +141,6 @@ namespace Ex03.ConsoleUI
             string name = Console.ReadLine();
             Console.WriteLine("Please write your phone number:");
             string phoneNumber = Console.ReadLine();
-
             return new Owner(name, phoneNumber);
         }
 
@@ -249,16 +239,6 @@ namespace Ex03.ConsoleUI
             r_GarageManager.AllVehiclesLicenseNumberListFiltered(i_AllVehiclesLicenseNumber, userChoice);
         }
 
-        private static void displayAllVehiclesLicenseNumberFilter()
-        {
-            Console.WriteLine("Do you want to filter the vehicles by status?(yes/no)");
-            string answer = Console.ReadLine();
-            if (answer == "no")
-            {
-            }
-            Console.WriteLine("Which of the following status do you want to filter by?");
-        }
-
         private static string getVehicleLicense()
         {
             Console.WriteLine("Please enter the vehicle license number");
@@ -274,6 +254,8 @@ namespace Ex03.ConsoleUI
             ShowEnumOptions<GarageManager.eVehicleStatus>();
             GetEnumChoice(out GarageManager.eVehicleStatus newStatus);
             r_GarageManager.ChangeVehicleStatus(vehicleLicense, newStatus);
+            Console.WriteLine("Vehicle status changed successfully");
+            PressAnyKeyToContinue();
         }
 
         private void inflateTires()
@@ -284,6 +266,8 @@ namespace Ex03.ConsoleUI
             if (float.TryParse(userInput, out float toInflate))
             {
                 r_GarageManager.InflateTires(vehicleLicense, toInflate);
+                Console.WriteLine($"All tires has been inflated by {toInflate}");
+                PressAnyKeyToContinue();
             }
             else
             {
@@ -302,6 +286,8 @@ namespace Ex03.ConsoleUI
             if (float.TryParse(userInput, out float toRefuel))
             {
                 r_GarageManager.RefuelVehicle(vehicleLicense, fuelType, toRefuel);
+                Console.WriteLine($"Vehicle has been refueled by {toRefuel}");
+                PressAnyKeyToContinue();
             }
             else
             {
@@ -312,11 +298,13 @@ namespace Ex03.ConsoleUI
         private void rechargeVehicle()
         {
             string vehicleLicense = getVehicleLicense();
-            Console.WriteLine("How much to charge?");
+            Console.WriteLine("How many minutes to recharge?");
             string userInput = Console.ReadLine();
             if (float.TryParse(userInput, out float toCharge))
             {
-                r_GarageManager.RechargeVehicle(vehicleLicense, toCharge);
+                r_GarageManager.RechargeVehicle(vehicleLicense, toCharge / 60f);
+                Console.WriteLine($"Vehicle has been recharged by {toCharge}");
+                PressAnyKeyToContinue();
             }
             else
             {
@@ -341,7 +329,7 @@ namespace Ex03.ConsoleUI
         {
             int amountOfOptions = Enum.GetNames(typeof(TEnum)).Length;
             string userInput = Console.ReadLine();
-            if (Enum.TryParse<TEnum>(userInput, out i_UserChoice) == false)
+            if (Enum.TryParse<TEnum>(userInput, out i_UserChoice) && Enum.IsDefined(typeof(TEnum), i_UserChoice) == false)
             {
                 throw new FormatException();
             }
