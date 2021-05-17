@@ -86,18 +86,18 @@ namespace Ex03.ConsoleUI
                 }
                 catch (ValueOutOfRangeException e)
                 {
-                    Console.WriteLine($"The maxim value is:{e.MaxValue}");
-                    Console.WriteLine($"The minim value is:{e.MinValue}");
+                    Console.WriteLine($"The maximum value is: {e.MaxValue}");
+				    Console.WriteLine($"The minimum value is: {e.MinValue}");
                     PressAnyKeyToContinue();
                 }
                 catch (FormatException e)
                 {
-                    Console.WriteLine($"The input is not in the correct format {e.Message}");
+                    Console.WriteLine($"The input is not in the correct format: {e.Message}");
                     PressAnyKeyToContinue();
                 }
                 catch (ArgumentException e)
                 {
-                    Console.WriteLine($"This is not a valid operation {e.Message}");
+                    Console.WriteLine($"This is not a valid operation: {e.Message}");
                     PressAnyKeyToContinue();
                 }
                 catch (Exception e)
