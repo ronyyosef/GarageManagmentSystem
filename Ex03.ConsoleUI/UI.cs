@@ -38,7 +38,7 @@ namespace Ex03.ConsoleUI
                 try
                 {
                     displayMenu();
-                    getUserChoice();
+                    GetEnumChoice(out m_UserChoice);
                     Console.Clear();
                     switch (m_UserChoice)
                     {
@@ -116,7 +116,7 @@ namespace Ex03.ConsoleUI
             Dictionary<string, string> dataDictionary = r_GarageManager.GetVehicleData(vehicleLicense);
             foreach (var item in dataDictionary)
             {
-                toPrint.Append($"{ToSentenceCaseStartUpperCase(item.Key)}: {item.Value}");
+                toPrint.Append($"{CamelcaseToSentenceCase(item.Key)}: {item.Value}");
                 toPrint.Append(Environment.NewLine);
             }
             Console.Clear();
@@ -137,9 +137,9 @@ namespace Ex03.ConsoleUI
 
         private static Owner getOwnerData()
         {
-            Console.WriteLine("Please write your Name:");
+            Console.WriteLine("Please enter your Name:");
             string name = Console.ReadLine();
-            Console.WriteLine("Please write your phone number:");
+            Console.WriteLine("Please enter your phone number:");
             string phoneNumber = Console.ReadLine();
             return new Owner(name, phoneNumber);
         }
@@ -176,11 +176,6 @@ namespace Ex03.ConsoleUI
             }
 
             return result;
-        }
-
-        private void getUserChoice()
-        {
-            GetEnumChoice(out m_UserChoice);
         }
 
         private static void displayMenu()
@@ -241,7 +236,7 @@ namespace Ex03.ConsoleUI
 
         private static string getVehicleLicense()
         {
-            Console.WriteLine("Please enter the vehicle license number");
+            Console.WriteLine("Please enter the vehicle license number:");
             string vehicleLicense = Console.ReadLine();
             return vehicleLicense;
         }
@@ -250,7 +245,7 @@ namespace Ex03.ConsoleUI
         {
             string vehicleLicense = getVehicleLicense();
             GarageManager.eVehicleStatus vehicleStatus = r_GarageManager.GetVehicleStatus(vehicleLicense);
-            Console.WriteLine($"The current status is: {ToSentenceCaseStartLowerCase(vehicleStatus.ToString())}");
+            Console.WriteLine($"The current status is: {CamelcaseToSentenceCase(vehicleStatus.ToString())}");
             ShowEnumOptions<GarageManager.eVehicleStatus>();
             GetEnumChoice(out GarageManager.eVehicleStatus newStatus);
             r_GarageManager.ChangeVehicleStatus(vehicleLicense, newStatus);
@@ -319,8 +314,7 @@ namespace Ex03.ConsoleUI
             foreach (string options in Enum.GetNames(typeof(TEnum)))
             {
                 toPrint.Append(Environment.NewLine);
-                string optionsSentenceCase = ToSentenceCaseStartUpperCase(options);
-                toPrint.Append($"{Enum.Parse(typeof(TEnum), options):D}. {optionsSentenceCase}");
+                toPrint.Append($"{Enum.Parse(typeof(TEnum), options):D}. {CamelcaseToSentenceCase(options)}");
             }
             Console.WriteLine(toPrint);
         }
@@ -335,14 +329,14 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public static string ToSentenceCaseStartUpperCase(string i_Str)
+        public static string CamelcaseToSentenceCase(string i_Str)
         {
-            return Regex.Replace(i_Str, "[a-z][A-Z]", m => $"{m.Value[0]} {char.ToLower(m.Value[1])}");
-        }
-
-        public static string ToSentenceCaseStartLowerCase(string i_Str)
-        {
-            return Regex.Replace(i_Str, "[a-z][A-Z]", m => $"{char.ToLower(m.Value[0])} {char.ToLower(m.Value[1])}");
+            if (char.IsLower(i_Str[0]))
+            {
+                i_Str = $"{char.ToUpper(i_Str[0]) + i_Str.Substring(1)}";
+            }
+            string output = Regex.Replace(i_Str, @"\p{Lu}", m => " " + m.Value.ToLowerInvariant());
+            return $"{char.ToUpper(output[1]) + output.Substring(2)}";
         }
     }
 }

@@ -30,12 +30,19 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public Wheel(float i_MaxAirPressure)
+        {
+            MaxAirPressure = i_MaxAirPressure;
+        }
+
+        /*
         public Wheel(float i_CurrentAirPressure, float i_MaxAirPressure, string i_ManufacturerName)
         {
             MaxAirPressure = i_MaxAirPressure;
             CurrentAirPressure = i_CurrentAirPressure;
             ManufacturerName = i_ManufacturerName;
         }
+        */
 
         public void Inflate(float i_HowMuchToInflate)
         {
@@ -50,7 +57,6 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add("currentAirPressure", new VehicleCreator.RequiredData("What is the current air pressure?", typeof(float)));
-            result.Add("maxAirPressure", new VehicleCreator.RequiredData("What is the maximum air pressure?", typeof(float)));
             result.Add("manufacturerName", new VehicleCreator.RequiredData("What is the manufacturer name?", typeof(string)));
             return result;
         }
@@ -59,6 +65,12 @@ namespace Ex03.GarageLogic
         {
             return
                 $"manufacturer name: {ManufacturerName}, max air pressure: {MaxAirPressure}, current air pressure: {CurrentAirPressure}";
+        }
+
+        public void Init(Dictionary<string, object> i_DataDictionary)
+        {
+            CurrentAirPressure = (float)i_DataDictionary["currentAirPressure"];
+            ManufacturerName = (string)i_DataDictionary["manufacturerName"];
         }
     }
 }

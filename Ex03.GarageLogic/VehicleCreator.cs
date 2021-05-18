@@ -64,28 +64,29 @@ namespace Ex03.GarageLogic
             switch (i_UserChoice)
             {
                 case eVehicleTypes.ElectricCar:
-                    newVehicle = new ElectricCar(i_VehicleDataList);
+                    newVehicle = new ElectricCar();
                     break;
 
                 case eVehicleTypes.ElectricMotorcycle:
-                    newVehicle = new ElectricMotorcycle(i_VehicleDataList);
+                    newVehicle = new ElectricMotorcycle();
                     break;
 
                 case eVehicleTypes.GasCar:
-                    newVehicle = new GasCar(i_VehicleDataList);
+                    newVehicle = new GasCar();
                     break;
 
                 case eVehicleTypes.GasMotorcycle:
-                    newVehicle = new GasMotorcycle(i_VehicleDataList);
+                    newVehicle = new GasMotorcycle();
                     break;
 
                 case eVehicleTypes.GasTruck:
-                    newVehicle = new GasTruck(i_VehicleDataList);
+                    newVehicle = new GasTruck();
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(i_UserChoice), i_UserChoice, null);
             }
+            newVehicle.Init(i_VehicleDataList);
 
             return newVehicle;
         }

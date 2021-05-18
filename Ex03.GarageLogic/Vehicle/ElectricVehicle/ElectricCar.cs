@@ -4,11 +4,17 @@ namespace Ex03.GarageLogic
 {
     internal class ElectricCar : ElectricVehicle
     {
-        private readonly Car r_Car;
+        private readonly Car r_Car = new Car();
+        private const float k_MaxBatteryTimeHours = 3.2f;
 
-        public ElectricCar(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary)
+        public ElectricCar() : base(k_MaxBatteryTimeHours, Car.k_NumberOfWheels, Car.k_MaxAirPressure)
         {
-            r_Car = new Car(i_DataDictionary);
+        }
+
+        public override void Init(Dictionary<string, object> i_DataDictionary)
+        {
+            r_Car.Init(i_DataDictionary);
+            base.Init(i_DataDictionary);
         }
 
         public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()

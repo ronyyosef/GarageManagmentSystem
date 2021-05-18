@@ -26,7 +26,7 @@ namespace Ex03.GarageLogic
         {
             r_Owner.GetData(i_Dictionary);
             Vehicle.GetData(i_Dictionary);
-            i_Dictionary.Add("Status", Status.ToString());
+            i_Dictionary.Add("status", Status.ToString());
         }
     }
 }

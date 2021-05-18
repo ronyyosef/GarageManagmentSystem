@@ -4,10 +4,13 @@ namespace Ex03.GarageLogic
 {
     internal class Truck
     {
-        public Truck(Dictionary<string, object> i_DataDictionary)
+        public const int k_NumberOfWheels = 16;
+        public const float k_MaxAirPressure = 26;
+
+        public void Init(Dictionary<string, object> i_DataDictionary)
         {
-            r_CarryingHazardousMaterials = (bool)i_DataDictionary["carryingHazardousMaterials"];
-            r_MaximumCarryingWeight = (float)i_DataDictionary["maximumCarryingWeight"];
+            m_CarryingHazardousMaterials = (bool)i_DataDictionary["carryingHazardousMaterials"];
+            m_MaximumCarryingWeight = (float)i_DataDictionary["maximumCarryingWeight"];
         }
 
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
@@ -22,7 +25,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_CarryingHazardousMaterials;
+                return m_CarryingHazardousMaterials;
             }
         }
 
@@ -30,7 +33,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_MaximumCarryingWeight;
+                return m_MaximumCarryingWeight;
             }
         }
 
@@ -40,7 +43,7 @@ namespace Ex03.GarageLogic
             i_Dictionary.Add("maximumCarryingWeight", MaximumCarryingWeight.ToString());
         }
 
-        private readonly bool r_CarryingHazardousMaterials;
-        private readonly float r_MaximumCarryingWeight;
+        private bool m_CarryingHazardousMaterials;
+        private float m_MaximumCarryingWeight;
     }
 }

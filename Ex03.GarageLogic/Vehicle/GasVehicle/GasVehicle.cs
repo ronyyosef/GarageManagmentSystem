@@ -15,33 +15,28 @@ namespace Ex03.GarageLogic
             Octan98,
         }
 
-        protected GasVehicle(Dictionary<string, object> i_DataDictionary, eFuelType i_FuelType) : base(i_DataDictionary)
+        protected GasVehicle(eFuelType i_FuelType, float i_MaxFuel, int i_NumberOfWheels, float i_MaxAirPressure) : base(i_NumberOfWheels, i_MaxAirPressure)
         {
             r_FuelType = i_FuelType;
-            r_MaxFuelAmountLiter = (float)i_DataDictionary["maxFuelAmountLiter"];
-            maxFuelCheck(r_MaxFuelAmountLiter);
+            r_MaxFuelAmountLiter = i_MaxFuel;
+        }
+
+        public override void Init(Dictionary<string, object> i_DataDictionary)
+        {
             CurrentFuelAmountLiter = (float)i_DataDictionary["currentFuelAmountLiter"];
             EnergyPercent = (CurrentFuelAmountLiter / r_MaxFuelAmountLiter) * 100;
+            base.Init(i_DataDictionary);
         }
 
         public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add("currentFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the current fuel amount in liters:", typeof(float)));
-            result.Add("maxFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the max fuel amount in liters:", typeof(float)));
-            foreach (var Require in Vehicle.RequiredData())
+            foreach (var require in Vehicle.RequiredData())
             {
-                result.Add(Require.Key, Require.Value);
+                result.Add(require.Key, require.Value);
             }
             return result;
-        }
-
-        private static void maxFuelCheck(float i_MaxFuelAmountLiter)
-        {
-            if (i_MaxFuelAmountLiter < k_MinFuel)
-            {
-                throw new ValueOutOfRangeException($"Maximum fuel amount cannot be negative", k_MinFuel, float.MaxValue);
-            }
         }
 
         public void Refuel(eFuelType i_FuelType, float i_ToAdd)
@@ -53,7 +48,7 @@ namespace Ex03.GarageLogic
             CurrentFuelAmountLiter += i_ToAdd;
         }
 
-        private readonly eFuelType r_FuelType;
+        private eFuelType r_FuelType;
 
         private float m_CurrentFuelAmountLiter;
 
@@ -67,7 +62,7 @@ namespace Ex03.GarageLogic
             {
                 if (value > r_MaxFuelAmountLiter || value < k_MinFuel)
                 {
-                    throw new ValueOutOfRangeException($"The current fuel Amount is {CurrentFuelAmountLiter}.", k_MinFuel, r_MaxFuelAmountLiter);
+                    throw new ValueOutOfRangeException($"You cant put {value} fuel in that vehicle.", k_MinFuel, r_MaxFuelAmountLiter);
                 }
 
                 EnergyPercent = (value / r_MaxFuelAmountLiter) * 100;

@@ -4,11 +4,18 @@ namespace Ex03.GarageLogic
 {
     internal class GasMotorcycle : GasVehicle
     {
-        private readonly Motorcycle r_Motorcycle;
+        private readonly Motorcycle r_Motorcycle = new Motorcycle();
+        private const eFuelType k_FuelType = eFuelType.Octan98;
+        private const float k_MaxFuel = 6;
 
-        public GasMotorcycle(Dictionary<string, object> i_DataDictionary) : base(i_DataDictionary, GasVehicle.eFuelType.Octan98)
+        public GasMotorcycle() : base(k_FuelType, k_MaxFuel, Motorcycle.k_NumberOfWheels, Motorcycle.k_MaxAirPressure)
         {
-            r_Motorcycle = new Motorcycle(i_DataDictionary);
+        }
+
+        public override void Init(Dictionary<string, object> i_DataDictionary)
+        {
+            r_Motorcycle.Init(i_DataDictionary);
+            base.Init(i_DataDictionary);
         }
 
         public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()

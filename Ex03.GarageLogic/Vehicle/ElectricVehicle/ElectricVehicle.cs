@@ -6,20 +6,22 @@ namespace Ex03.GarageLogic
     {
         private const float k_MinBattery = 0;
 
-        protected ElectricVehicle(Dictionary<string, object> i_DataDictionary)
-            : base(i_DataDictionary)
+        protected ElectricVehicle(float i_MaxBatteryTime, int i_NumberOfWheels, float i_MaxAirPressure) : base(i_NumberOfWheels, i_MaxAirPressure)
         {
-            maxBatteryCheck((float)i_DataDictionary["maxBatteryTime"]);
-            r_MaxBatteryTime = (float)i_DataDictionary["maxBatteryTime"];
+            r_MaxBatteryTime = i_MaxBatteryTime;
+        }
+
+        public override void Init(Dictionary<string, object> i_DataDictionary)
+        {
             BatteryTimeRemain = (float)i_DataDictionary["batteryTimeRemain"];
             EnergyPercent = (m_BatteryTimeRemain / r_MaxBatteryTime);
+            base.Init(i_DataDictionary);
         }
 
         public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
-            result.Add("maxBatteryTime", new VehicleCreator.RequiredData("Please enter the maximum battery time:", typeof(float)));
-            result.Add("batteryTimeRemain", new VehicleCreator.RequiredData("Please enter the current battery time remain:", typeof(float)));
+            result.Add("batteryTimeRemain", new VehicleCreator.RequiredData("Please enter the current battery time remain in hours:", typeof(float)));
             foreach (var Require in Vehicle.RequiredData())
             {
                 result.Add(Require.Key, Require.Value);
@@ -44,14 +46,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        private void maxBatteryCheck(float i_MaxBatteryAmount)
-        {
-            if (i_MaxBatteryAmount < k_MinBattery)
-            {
-                throw new ValueOutOfRangeException("Maximum battery time cannot be negative", k_MinBattery, r_MaxBatteryTime);
-            }
-        }
-
         protected float MaxBatteryTime
         {
             get
@@ -71,8 +65,8 @@ namespace Ex03.GarageLogic
         public override void GetData(Dictionary<string, string> i_Dictionary)
         {
             base.GetData(i_Dictionary);
-            i_Dictionary.Add("batteryTimeRemain", BatteryTimeRemain.ToString());
-            i_Dictionary.Add("maxBatteryTime", MaxBatteryTime.ToString());
+            i_Dictionary.Add("batteryTimeRemainInHours", BatteryTimeRemain.ToString());
+            i_Dictionary.Add("maxBatteryTimeInHours", MaxBatteryTime.ToString());
         }
     }
 }
