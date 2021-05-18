@@ -21,14 +21,7 @@ namespace Ex03.GarageLogic
             r_MaxFuelAmountLiter = i_MaxFuel;
         }
 
-        public override void Init(Dictionary<string, object> i_DataDictionary)
-        {
-            CurrentFuelAmountLiter = (float)i_DataDictionary["currentFuelAmountLiter"];
-            EnergyPercent = (CurrentFuelAmountLiter / r_MaxFuelAmountLiter) * 100;
-            base.Init(i_DataDictionary);
-        }
-
-        public new static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        public static new Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add("currentFuelAmountLiter", new VehicleCreator.RequiredData("Please enter the current fuel amount in liters:", typeof(float)));
@@ -36,7 +29,15 @@ namespace Ex03.GarageLogic
             {
                 result.Add(require.Key, require.Value);
             }
+
             return result;
+        }
+
+        public override void Init(Dictionary<string, object> i_DataDictionary)
+        {
+            CurrentFuelAmountLiter = (float)i_DataDictionary["currentFuelAmountLiter"];
+            EnergyPercent = (CurrentFuelAmountLiter / r_MaxFuelAmountLiter) * 100;
+            base.Init(i_DataDictionary);
         }
 
         public void Refuel(eFuelType i_FuelType, float i_ToAdd)
@@ -45,6 +46,7 @@ namespace Ex03.GarageLogic
             {
                 throw new ArgumentException($"This vehicle runs on {r_FuelType.ToString()} only!");
             }
+
             CurrentFuelAmountLiter += i_ToAdd;
         }
 
@@ -58,6 +60,7 @@ namespace Ex03.GarageLogic
             {
                 return m_CurrentFuelAmountLiter;
             }
+
             set
             {
                 if (value > r_MaxFuelAmountLiter || value < k_MinFuel)

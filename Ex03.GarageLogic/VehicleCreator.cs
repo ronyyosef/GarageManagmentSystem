@@ -55,6 +55,7 @@ namespace Ex03.GarageLogic
                 default:
                     throw new ArgumentOutOfRangeException(nameof(i_UserChoice), i_UserChoice, null);
             }
+
             return requiredData;
         }
 
@@ -86,8 +87,8 @@ namespace Ex03.GarageLogic
                 default:
                     throw new ArgumentOutOfRangeException(nameof(i_UserChoice), i_UserChoice, null);
             }
-            newVehicle.Init(i_VehicleDataList);
 
+            newVehicle.Init(i_VehicleDataList);
             return newVehicle;
         }
     }

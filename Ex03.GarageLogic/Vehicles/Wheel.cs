@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -15,12 +14,14 @@ namespace Ex03.GarageLogic
             {
                 return m_CurrentAirPressure;
             }
+
             set
             {
-                if ((value) > MaxAirPressure)
+                if (value > MaxAirPressure)
                 {
                     throw new ValueOutOfRangeException($"The current air pressure is {CurrentAirPressure}.", k_MinAirPressure, MaxAirPressure);
                 }
+
                 if (value < k_MinAirPressure)
                 {
                     throw new ValueOutOfRangeException($"The current air pressure is {CurrentAirPressure}.", k_MinAirPressure, MaxAirPressure);
@@ -44,6 +45,14 @@ namespace Ex03.GarageLogic
         }
         */
 
+        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
+        {
+            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
+            result.Add("currentAirPressure", new VehicleCreator.RequiredData("What is the current air pressure?", typeof(float)));
+            result.Add("manufacturerName", new VehicleCreator.RequiredData("What is the manufacturer name?", typeof(string)));
+            return result;
+        }
+
         public void Inflate(float i_HowMuchToInflate)
         {
             CurrentAirPressure += i_HowMuchToInflate;
@@ -52,14 +61,6 @@ namespace Ex03.GarageLogic
         public string ManufacturerName { get; set; }
 
         private float m_CurrentAirPressure;
-
-        public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
-        {
-            Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
-            result.Add("currentAirPressure", new VehicleCreator.RequiredData("What is the current air pressure?", typeof(float)));
-            result.Add("manufacturerName", new VehicleCreator.RequiredData("What is the manufacturer name?", typeof(string)));
-            return result;
-        }
 
         public override string ToString()
         {

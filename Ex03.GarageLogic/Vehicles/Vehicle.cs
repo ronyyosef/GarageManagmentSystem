@@ -20,16 +20,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public virtual void Init(Dictionary<string, object> i_DataDictionary)
-        {
-            for (int i = 0; i < r_Wheels.Count; i++)
-            {
-                r_Wheels[i].Init(i_DataDictionary);
-            }
-            m_ModelName = (string)i_DataDictionary["modelName"];
-            LicenseNumber = (string)i_DataDictionary["licenseNumber"];
-        }
-
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
@@ -43,12 +33,24 @@ namespace Ex03.GarageLogic
             return result;
         }
 
+        public virtual void Init(Dictionary<string, object> i_DataDictionary)
+        {
+            for (int i = 0; i < r_Wheels.Count; i++)
+            {
+                r_Wheels[i].Init(i_DataDictionary);
+            }
+
+            m_ModelName = (string)i_DataDictionary["modelName"];
+            LicenseNumber = (string)i_DataDictionary["licenseNumber"];
+        }
+
         public float EnergyPercent
         {
             get
             {
                 return m_EnergyPercent;
             }
+
             set
             {
                 if (m_EnergyPercent < k_MinPercent || m_EnergyPercent > k_MaxPercent)
@@ -79,6 +81,7 @@ namespace Ex03.GarageLogic
                 wheelsData.Append(Environment.NewLine);
                 wheelsData.Append($"{i + 1}. {r_Wheels[i].ToString()}");
             }
+
             i_Dictionary.Add("wheels", wheelsData.ToString());
             i_Dictionary.Add("modelName", m_ModelName);
             i_Dictionary.Add("energyPercent", $"{EnergyPercent:0.00}%");

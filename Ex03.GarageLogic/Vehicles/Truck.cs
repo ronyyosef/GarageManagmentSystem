@@ -7,18 +7,18 @@ namespace Ex03.GarageLogic
         public const int k_NumberOfWheels = 16;
         public const float k_MaxAirPressure = 26;
 
-        public void Init(Dictionary<string, object> i_DataDictionary)
-        {
-            m_CarryingHazardousMaterials = (bool)i_DataDictionary["carryingHazardousMaterials"];
-            m_MaximumCarryingWeight = (float)i_DataDictionary["maximumCarryingWeight"];
-        }
-
         public static Dictionary<string, VehicleCreator.RequiredData> RequiredData()
         {
             Dictionary<string, VehicleCreator.RequiredData> result = new Dictionary<string, VehicleCreator.RequiredData>();
             result.Add("carryingHazardousMaterials", new VehicleCreator.RequiredData("Please enter if the truck carrying hazardous materials:", typeof(bool)));
             result.Add("maximumCarryingWeight", new VehicleCreator.RequiredData("Please enter the truck maximum carrying weight:", typeof(float)));
             return result;
+        }
+
+        public void Init(Dictionary<string, object> i_DataDictionary)
+        {
+            m_CarryingHazardousMaterials = (bool)i_DataDictionary["carryingHazardousMaterials"];
+            m_MaximumCarryingWeight = (float)i_DataDictionary["maximumCarryingWeight"];
         }
 
         public bool CarryingHazardousMaterials

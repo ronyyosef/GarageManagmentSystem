@@ -12,12 +12,6 @@ namespace Ex03.GarageLogic
             BB,
         }
 
-        public void Init(Dictionary<string, object> i_DataDictionary)
-        {
-            LicenseType = (eLicenseType)i_DataDictionary["licenseType"];
-            EngineCapacityCc = (int)i_DataDictionary["engineCapacityCc"];
-        }
-
         public const int k_NumberOfWheels = 2;
         public const float k_MaxAirPressure = 30;
 
@@ -27,6 +21,12 @@ namespace Ex03.GarageLogic
             result.Add("licenseType", new VehicleCreator.RequiredData("Please enter your motorcycle license type:", typeof(eLicenseType)));
             result.Add("engineCapacityCc", new VehicleCreator.RequiredData("Please enter your motorcycle engine capacity CC:", typeof(int)));
             return result;
+        }
+
+        public void Init(Dictionary<string, object> i_DataDictionary)
+        {
+            LicenseType = (eLicenseType)i_DataDictionary["licenseType"];
+            EngineCapacityCc = (int)i_DataDictionary["engineCapacityCc"];
         }
 
         public eLicenseType LicenseType { get; set; }

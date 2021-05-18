@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ex03.GarageLogic
 {
@@ -45,6 +44,7 @@ namespace Ex03.GarageLogic
             {
                 throw new ArgumentException("This vehicle number already in the garage!!!");
             }
+
             r_VehicleInTheGarageDictionary.Add(i_NewVehicle.LicenseNumber, new VehicleInTheGarage(i_NewOwner, i_NewVehicle));
         }
 
